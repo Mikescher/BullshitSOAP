@@ -1,0 +1,49 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+	mavenCentral()
+}
+
+project.ext {
+	appmain    = 'com.mikescher.bullshitsoap.Main'
+	appversion = '0.1'
+	appname    = 'BullshitSOAP'
+}
+
+
+version = project.appversion
+sourceCompatibility = 1.8
+
+jar {
+    manifest {
+        attributes 'Implementation-Title':   project.appname,  
+                   'Implementation-Version': project.version,
+                   'Main-Class':             project.appmain
+    }
+
+    baseName = project.appname
+    version = project.appversion
+}
+
+dependencies {
+	compile 'com.jgoodies:jgoodies-common:1.8.1'
+	compile 'com.jgoodies:jgoodies-forms:1.9.0'
+	compile 'com.io7m.xom:xom:1.2.10'
+}
+
+jar {
+}
+
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title':   project.appname,  
+                   'Implementation-Version': project.version,
+                   'Main-Class':             project.appmain
+    }
+
+    baseName = project.appname + '_fat'
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
