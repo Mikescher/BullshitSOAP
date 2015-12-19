@@ -14,15 +14,9 @@ public abstract class WSDLSimpleType extends WSDLType {
 		
 		Element restriction = element.getFirstChildElement("restriction", WSDLDefinition.NS_XSD);
 		if (restriction != null) {
-			if (wsdl.compareType(restriction.getAttributeValue("base"), WSDLDefinition.NS_XSD, "string")) {
-				return WSDLStringEnumerationType.createFromWSDL(name, namespace, restriction);
-			} else if (wsdl.compareType(restriction.getAttributeValue("base"), WSDLDefinition.NS_XSD, "int")) {
-				return WSDLIntegerEnumerationType.createFromWSDL(name, namespace, restriction);
-			}
+			return WSDLEnumerationType.createFromWSDL(wsdl, name, namespace, element);
 		} else {
 			throw new WSDLParsingException("Unexpected element " + restriction);
 		}
-
-		throw new WSDLParsingException("Unexpected children " + element);
 	}
 }

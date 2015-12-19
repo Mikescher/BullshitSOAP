@@ -8,7 +8,9 @@ import java.util.Map;
 
 import de.samdev.bullshitsoap.DebugLogger;
 import de.samdev.bullshitsoap.parser.types.WSDLComplexType;
+import de.samdev.bullshitsoap.parser.types.WSDLIntegerType;
 import de.samdev.bullshitsoap.parser.types.WSDLSimpleType;
+import de.samdev.bullshitsoap.parser.types.WSDLStringType;
 import de.samdev.bullshitsoap.parser.types.WSDLType;
 import nu.xom.Attribute;
 import nu.xom.Builder;
@@ -52,8 +54,14 @@ public class WSDLDefinition {
 
 		Element types = root.getFirstChildElement("types", NS_WSDL);
 		
+		addPrimitiveTypes();
 		parseNamespaces(root);
 		parseTypes(types);
+	}
+
+	private void addPrimitiveTypes() {
+		addWSDLType(new WSDLStringType());
+		addWSDLType(new WSDLIntegerType());
 	}
 
 	private void parseNamespaces(Element root) {
@@ -77,19 +85,25 @@ public class WSDLDefinition {
 		for (int i = 0; i < simpleTypes.size(); i++) {
 			Element simpleTypeXML = simpleTypes.get(i);
 
-			types.add(WSDLSimpleType.createFromWSDL(this, simpleTypeXML, targetNS));
+			WSDLType newType = WSDLSimpleType.createFromWSDL(this, simpleTypeXML, targetNS);
+			addWSDLType(newType);
 		}
 		
 		Elements complexTypes = schema.getChildElements("complexType", NS_XSD);
 		for (int i = 0; i < complexTypes.size(); i++) {
 			Element complexTypeXML = complexTypes.get(i);
 
-			types.add(WSDLComplexType.createFromWSDL(this, complexTypeXML, targetNS));
+			WSDLType newType = WSDLComplexType.createFromWSDL(this, complexTypeXML, targetNS);
+			addWSDLType(newType);
 		}
 	}
 
+	private void addWSDLType(WSDLType newType) {
+		DebugLogger.Log("Found type definition: %s", newType.GetDebugString());					
+		types.add(newType);
+	}
+
 	public boolean compareType(String fullValue, String namespace, String value) {
-		
 		String[] split = fullValue.split(":");
 		
 		if (split.length == 1 && (namespace == null || namespace.isEmpty()) && fullValue.equalsIgnoreCase(value)) return true;
@@ -99,6 +113,29 @@ public class WSDLDefinition {
 		if (! namespaces.containsKey(split[0].toLowerCase())) return false;
 		
 		return namespaces.get(split[0].toLowerCase()).equalsIgnoreCase(namespace) && split[1].equalsIgnoreCase(value);
+	}
+
+	public WSDLType getWSDLType(String typeName) throws WSDLParsingException {
+		for (WSDLType wsdlType : types) {
+			if (compareType(typeName, wsdlType.Namespace, wsdlType.Name)) return wsdlType;
+		}
+
+		throw new WSDLParsingException("Can't find type: " + typeName);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends WSDLType> T getSpecificWSDLType(String typeName) throws WSDLParsingException {
+		for (WSDLType wsdlType : types) {
+			if (compareType(typeName, wsdlType.Namespace, wsdlType.Name)) {
+				try {
+					return (T)wsdlType;
+				} catch (ClassCastException e) {
+					throw new WSDLParsingException(e);
+				}
+			}
+		}
+
+		throw new WSDLParsingException("Can't find type: " + typeName);
 	}
 
 }

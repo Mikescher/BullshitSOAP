@@ -23,8 +23,9 @@ public class DebugLogger {
 	
 	public static void Log(String format, Object... args) {
 		String log = String.format(format, args);
-		
+
 		System.out.println(log);
+		System.out.println();
 
 		for (DebugLogListener dll : listeners) dll.OnLog(log);
 	}
