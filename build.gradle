@@ -6,7 +6,7 @@ repositories {
 }
 
 project.ext {
-	appmain    = 'com.mikescher.bullshitsoap.Main'
+	appmain    = 'de.samdev.bullshitsoap.Main'
 	appversion = '0.1'
 	appname    = 'BullshitSOAP'
 }

@@ -1,4 +1,4 @@
-package com.mikescher.bullshitsoap.http;
+package de.samdev.bullshitsoap.http;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

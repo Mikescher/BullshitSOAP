@@ -1,4 +1,4 @@
-package com.mikescher.bullshitsoap;
+package de.samdev.bullshitsoap;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,8 +13,9 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
-import com.mikescher.bullshitsoap.http.HTTPReader;
-import com.mikescher.bullshitsoap.parser.WSDLDefinition;
+
+import de.samdev.bullshitsoap.http.HTTPReader;
+import de.samdev.bullshitsoap.parser.WSDLDefinition;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 6293022652906529242L;

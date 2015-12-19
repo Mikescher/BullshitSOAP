@@ -1,4 +1,4 @@
-package com.mikescher.bullshitsoap.parser.types;
+package de.samdev.bullshitsoap.parser.types;
 
 import nu.xom.Element;
 

@@ -1,12 +1,11 @@
-package com.mikescher.bullshitsoap.parser;
+package de.samdev.bullshitsoap.parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mikescher.bullshitsoap.parser.types.WSDLSimpleType;
-import com.mikescher.bullshitsoap.parser.types.WSDLType;
-
+import de.samdev.bullshitsoap.parser.types.WSDLSimpleType;
+import de.samdev.bullshitsoap.parser.types.WSDLType;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;

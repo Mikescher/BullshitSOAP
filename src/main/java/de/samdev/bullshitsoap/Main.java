@@ -1,4 +1,4 @@
-package com.mikescher.bullshitsoap;
+package de.samdev.bullshitsoap;
 
 import java.awt.EventQueue;
 
