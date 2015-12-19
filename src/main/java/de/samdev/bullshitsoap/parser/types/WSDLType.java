@@ -12,9 +12,10 @@ public abstract class WSDLType {
 		Namespace = ns;
 	}
 	
-	public String GetDebugString() {
-		return String.format("[%s] %s", Name, GetInternalDebugRepresentation());
+	public String toDebugString() {
+		return String.format("%s [%s] %s", GetInternalDebugName(), Name, GetInternalDebugRepresentation());
 	}
 	
 	public abstract String GetInternalDebugRepresentation();
+	public abstract String GetInternalDebugName();
 }

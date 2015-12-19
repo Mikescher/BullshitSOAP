@@ -3,16 +3,16 @@ package de.samdev.bullshitsoap.parser.types;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
 
-public class WSDLIntegerType extends WSDLPrimitiveType {
+public class WSDLDoubleType extends WSDLPrimitiveType {
 
-	public WSDLIntegerType() {
-		super("int", WSDLDefinition.NS_XSD);
+	public WSDLDoubleType() {
+		super("double", WSDLDefinition.NS_XSD);
 	}
 
 	@Override
 	public Object parseFromString(String value) throws WSDLParsingException {
 		try {
-			return Integer.valueOf(value);
+			return Double.valueOf(value);
 		} catch (NumberFormatException e) {
 			throw new WSDLParsingException(e);
 		}

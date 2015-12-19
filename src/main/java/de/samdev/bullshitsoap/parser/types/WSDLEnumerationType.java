@@ -36,6 +36,11 @@ public class WSDLEnumerationType extends WSDLSimpleType {
 
 	@Override
 	public String GetInternalDebugRepresentation() {
-		return "(" + StringHelper.join(" | ", values) + ") of " + base.GetDebugString();
+		return "(" + StringHelper.joinStringRep(" | ", values) + ") of " + base.toDebugString();
+	}
+
+	@Override
+	public String GetInternalDebugName() {
+		return "enumeration";
 	}
 }

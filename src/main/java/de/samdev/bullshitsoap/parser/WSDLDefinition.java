@@ -7,12 +7,18 @@ import java.util.List;
 import java.util.Map;
 
 import de.samdev.bullshitsoap.DebugLogger;
+import de.samdev.bullshitsoap.parser.types.WSDLBooleanType;
+import de.samdev.bullshitsoap.parser.types.WSDLByteType;
 import de.samdev.bullshitsoap.parser.types.WSDLComplexType;
+import de.samdev.bullshitsoap.parser.types.WSDLDateTimeType;
+import de.samdev.bullshitsoap.parser.types.WSDLDateType;
+import de.samdev.bullshitsoap.parser.types.WSDLDoubleType;
+import de.samdev.bullshitsoap.parser.types.WSDLFloatType;
 import de.samdev.bullshitsoap.parser.types.WSDLIntegerType;
+import de.samdev.bullshitsoap.parser.types.WSDLLongType;
 import de.samdev.bullshitsoap.parser.types.WSDLSimpleType;
 import de.samdev.bullshitsoap.parser.types.WSDLStringType;
 import de.samdev.bullshitsoap.parser.types.WSDLType;
-import nu.xom.Attribute;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -60,8 +66,19 @@ public class WSDLDefinition {
 	}
 
 	private void addPrimitiveTypes() {
+		addWSDLType(new WSDLBooleanType());
+		
 		addWSDLType(new WSDLStringType());
+		
+		addWSDLType(new WSDLByteType());
 		addWSDLType(new WSDLIntegerType());
+		addWSDLType(new WSDLLongType());
+		
+		addWSDLType(new WSDLDoubleType());
+		addWSDLType(new WSDLFloatType());
+		
+		addWSDLType(new WSDLDateType());
+		addWSDLType(new WSDLDateTimeType());
 	}
 
 	private void parseNamespaces(Element root) {
@@ -99,7 +116,7 @@ public class WSDLDefinition {
 	}
 
 	private void addWSDLType(WSDLType newType) {
-		DebugLogger.Log("Found type definition: %s", newType.GetDebugString());					
+		DebugLogger.Log("Found type definition: %s", newType.toDebugString());					
 		types.add(newType);
 	}
 

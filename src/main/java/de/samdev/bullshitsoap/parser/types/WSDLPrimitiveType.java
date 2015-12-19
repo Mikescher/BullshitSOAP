@@ -10,6 +10,11 @@ public abstract class WSDLPrimitiveType extends WSDLSimpleType {
 
 	@Override
 	public String GetInternalDebugRepresentation() {
+		return "";
+	}
+
+	@Override
+	public String GetInternalDebugName() {
 		return "primitive";
 	}
 
