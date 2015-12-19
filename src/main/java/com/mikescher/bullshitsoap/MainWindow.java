@@ -1,20 +1,20 @@
 package com.mikescher.bullshitsoap;
-import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import com.jgoodies.forms.layout.FormLayout;
+
 import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import com.mikescher.bullshitsoap.http.HTTPReader;
 import com.mikescher.bullshitsoap.parser.WSDLDefinition;
-import com.jgoodies.forms.layout.FormSpecs;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 6293022652906529242L;
@@ -59,7 +59,7 @@ public class MainWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					wsdl = new WSDLDefinition(HTTPReader.getHTTP(edWsdlUrl.getText()));
+					wsdl = new WSDLDefinition(HTTPReader.getHTTP(edWsdlUrl.getText()), "ComunioWebService");
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(MainWindow.this, e.toString());
 					e.printStackTrace();
