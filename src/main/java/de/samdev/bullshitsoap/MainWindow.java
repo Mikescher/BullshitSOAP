@@ -14,8 +14,13 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
+import de.samdev.bullshitsoap.DebugLogger.DebugLogListener;
 import de.samdev.bullshitsoap.http.HTTPReader;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
+import javax.swing.JTextPane;
+import javax.swing.JList;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 6293022652906529242L;
@@ -26,6 +31,12 @@ public class MainWindow extends JFrame {
 
 	
 	private WSDLDefinition wsdl = null;
+	private JTextPane edLog;
+	private JLabel lblNewLabel;
+	private JList list;
+	private JScrollPane scrollPane;
+	private JScrollPane scrollPane_1;
+	private JLabel lblLog;
 	
 	
 	/**
@@ -33,9 +44,17 @@ public class MainWindow extends JFrame {
 	 */
 	public MainWindow() {
 		initGUI();
+		
+		DebugLogger.addListener(new DebugLogListener() {
+			@Override
+			public void OnLog(String message) {
+				edLog.setText(edLog.getText() + "\r\n" + message);
+			}
+		});
 	}
 	
 	private void initGUI() {
+		setTitle("Bullshit SOAP Tool");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 843, 584);
 		contentPane = new JPanel();
@@ -43,16 +62,27 @@ public class MainWindow extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
 				FormSpecs.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("100dlu"),
+				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
 				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,},
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,},
 			new RowSpec[] {
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,}));
+				RowSpec.decode("fill:default"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
 		
 		edWsdlUrl = new JTextField();
 		edWsdlUrl.setText("http://www.comunio.de/soapservice.php?wsdl");
-		contentPane.add(edWsdlUrl, "2, 2, fill, default");
+		contentPane.add(edWsdlUrl, "2, 2, 3, 1, fill, default");
 		edWsdlUrl.setColumns(10);
 		
 		btnParseWsadl = new JButton("PARSE WSDL");
@@ -60,14 +90,33 @@ public class MainWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					wsdl = new WSDLDefinition(HTTPReader.getHTTP(edWsdlUrl.getText()), "ComunioWebService");
+					wsdl = new WSDLDefinition(HTTPReader.getHTTP(edWsdlUrl.getText()));
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(MainWindow.this, e.toString());
+					JOptionPane.showMessageDialog(MainWindow.this, e.toString() + "\r\n" + e.getMessage());
 					e.printStackTrace();
 				}
 			}
 		});
-		contentPane.add(btnParseWsadl, "4, 2");
+		contentPane.add(btnParseWsadl, "6, 2");
+		
+		lblNewLabel = new JLabel("Operations:");
+		contentPane.add(lblNewLabel, "2, 4, 3, 1");
+		
+		scrollPane_1 = new JScrollPane();
+		contentPane.add(scrollPane_1, "2, 6, fill, fill");
+		
+		list = new JList();
+		scrollPane_1.setViewportView(list);
+		
+		lblLog = new JLabel("Log:");
+		contentPane.add(lblLog, "2, 8");
+		
+		scrollPane = new JScrollPane();
+		contentPane.add(scrollPane, "2, 10, 5, 1, fill, fill");
+		
+		edLog = new JTextPane();
+		edLog.setEditable(false);
+		scrollPane.setViewportView(edLog);
 	}
 
 }
