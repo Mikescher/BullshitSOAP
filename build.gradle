@@ -8,7 +8,7 @@ repositories {
 
 project.ext {
 	appmain    = 'de.samdev.bullshitsoap.Main'
-	appversion = '0.1'
+	appversion = '0.2'
 	appname    = 'BullshitSOAP'
 }
 
