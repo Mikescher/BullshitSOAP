@@ -11,7 +11,7 @@ Used as an SOAP Parser for android apps, because android has no SOAP parser incl
 ###Useful links:
 
  - http://www.w3.org/2001/03/14-annotated-WSDL-examples.html
- - http://www.w3.org/TR/wsdl#_document-s
+ - http://www.w3.org/TR/wsdl
  - https://msdn.microsoft.com/en-us/library/ms996486.aspx#understand_topic3
  - http://www.w3schools.com/xml/xml_wsdl.asp
  - http://www.w3schools.com/xml/schema_elements_ref.asp

@@ -206,4 +206,8 @@ public class WSDLDefinition {
 
 		throw new WSDLParsingException("Can't find message: " + messagename);
 	}
+	
+	public Iterable<WSDLOperation> getOperations() {
+		return operations;
+	}
 }

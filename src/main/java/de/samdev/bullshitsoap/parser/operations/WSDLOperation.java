@@ -45,4 +45,9 @@ public abstract class WSDLOperation implements IDebugFormattable {
 
 		throw new WSDLParsingException("Can't determine message type: " + root);
 	}
+	
+	@Override
+	public String toString() {
+		return Name;
+	}
 }
