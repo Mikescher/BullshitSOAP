@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'application'
 
 repositories {
 	mavenCentral()
@@ -15,6 +16,7 @@ project.ext {
 version = project.appversion
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
+mainClassName = project.appmain
 
 jar {
     manifest {
