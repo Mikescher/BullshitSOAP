@@ -16,7 +16,7 @@ public class WSDLMessage implements IDebugFormattable {
 	public final String Namespace;
 	private final List<WSDLMessagePart> fields;
 	
-	public WSDLMessage(String name, String namespace, List<WSDLMessagePart> parts) {
+	private WSDLMessage(String name, String namespace, List<WSDLMessagePart> parts) {
 		super();
 		
 		fields = parts;

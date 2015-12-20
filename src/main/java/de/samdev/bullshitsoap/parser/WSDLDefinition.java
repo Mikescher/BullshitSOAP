@@ -8,6 +8,7 @@ import java.util.Map;
 
 import de.samdev.bullshitsoap.DebugLogger;
 import de.samdev.bullshitsoap.parser.messages.WSDLMessage;
+import de.samdev.bullshitsoap.parser.operations.WSDLOperation;
 import de.samdev.bullshitsoap.parser.types.WSDLBooleanType;
 import de.samdev.bullshitsoap.parser.types.WSDLByteType;
 import de.samdev.bullshitsoap.parser.types.WSDLComplexType;
@@ -38,6 +39,7 @@ public class WSDLDefinition {
 	private String serviceName;
 	private List<WSDLType> types = new ArrayList<WSDLType>();
 	private List<WSDLMessage> messages = new ArrayList<WSDLMessage>();
+	private List<WSDLOperation> operations = new ArrayList<WSDLOperation>();
 	
 	public WSDLDefinition(String xml) throws WSDLParsingException  {
 		super();
@@ -69,6 +71,21 @@ public class WSDLDefinition {
 		parseNamespaces(root);
 		parseTypes(types);
 		parseMessages(root, targetNS);
+		parseOperations(root, targetNS);
+	}
+
+	private void parseOperations(Element root, String targetNS) throws NumberFormatException, WSDLParsingException {
+		Element port = root.getFirstChildElement("portType", NS_WSDL);
+		
+		Elements operationsXML = port.getChildElements("operation", NS_WSDL);
+		for (int i = 0; i < operationsXML.size(); i++) {
+			Element operationXML = operationsXML.get(i);
+			String operationName = operationXML.getAttributeValue("name");
+			
+			WSDLOperation newOperation = WSDLOperation.createFromWSDL(this, operationName, targetNS, operationXML);
+			addWSDLOperation(newOperation);
+		}
+		
 	}
 
 	private void parseMessages(Element root, String targetNS) throws NumberFormatException, WSDLParsingException {
@@ -142,7 +159,12 @@ public class WSDLDefinition {
 		messages.add(newMessage);
 	}
 
-	public boolean compareType(String fullValue, String namespace, String value) {
+	private void addWSDLOperation(WSDLOperation newOperation) {
+		DebugLogger.Log("Found operation definition: %s", newOperation.toDebugString());					
+		operations.add(newOperation);
+	}
+
+	public boolean compareNSValue(String fullValue, String namespace, String value) {
 		String[] split = fullValue.split(":");
 		
 		if (split.length == 1 && (namespace == null || namespace.isEmpty()) && fullValue.equalsIgnoreCase(value)) return true;
@@ -156,7 +178,7 @@ public class WSDLDefinition {
 
 	public WSDLType getWSDLType(String typeName) throws WSDLParsingException {
 		for (WSDLType wsdlType : types) {
-			if (compareType(typeName, wsdlType.Namespace, wsdlType.Name)) return wsdlType;
+			if (compareNSValue(typeName, wsdlType.Namespace, wsdlType.Name)) return wsdlType;
 		}
 
 		throw new WSDLParsingException("Can't find type: " + typeName);
@@ -165,7 +187,7 @@ public class WSDLDefinition {
 	@SuppressWarnings("unchecked")
 	public <T extends WSDLType> T getSpecificWSDLType(String typeName) throws WSDLParsingException {
 		for (WSDLType wsdlType : types) {
-			if (compareType(typeName, wsdlType.Namespace, wsdlType.Name)) {
+			if (compareNSValue(typeName, wsdlType.Namespace, wsdlType.Name)) {
 				try {
 					return (T)wsdlType;
 				} catch (ClassCastException e) {
@@ -175,5 +197,13 @@ public class WSDLDefinition {
 		}
 
 		throw new WSDLParsingException("Can't find type: " + typeName);
+	}
+
+	public WSDLMessage getWSDLMessage(String messagename) throws WSDLParsingException {
+		for (WSDLMessage wsdlMessage : messages) {
+			if (compareNSValue(messagename, wsdlMessage.Namespace, wsdlMessage.Name)) return wsdlMessage;
+		}
+
+		throw new WSDLParsingException("Can't find message: " + messagename);
 	}
 }
