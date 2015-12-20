@@ -1,4 +1,5 @@
 package de.samdev.bullshitsoap;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,6 +19,8 @@ import de.samdev.bullshitsoap.DebugLogger.DebugLogListener;
 import de.samdev.bullshitsoap.http.HTTPReader;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -34,7 +37,7 @@ public class MainWindow extends JFrame {
 	private JTextPane edLog;
 	private JLabel lblNewLabel;
 	private JList list;
-	private JScrollPane scrollPane;
+	private JScrollPane scrollPaneLog;
 	private JScrollPane scrollPane_1;
 	private JLabel lblLog;
 	
@@ -47,8 +50,15 @@ public class MainWindow extends JFrame {
 		
 		DebugLogger.addListener(new DebugLogListener() {
 			@Override
-			public void OnLog(String message) {
-				edLog.setText(edLog.getText() + "\r\n" + message);
+			public void OnLog(final String message) {
+				EventQueue.invokeLater(new Runnable(){
+					@Override
+					public void run(){
+						edLog.setText(edLog.getText() + "\r\n" + message);
+
+						scrollPaneLog.getVerticalScrollBar().setValue(scrollPaneLog.getVerticalScrollBar().getMaximum());
+					}
+				});
 			}
 		});
 	}
@@ -89,12 +99,41 @@ public class MainWindow extends JFrame {
 		btnParseWsadl.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					wsdl = new WSDLDefinition(HTTPReader.getHTTP(edWsdlUrl.getText()));
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(MainWindow.this, e.toString() + "\r\n" + e.getMessage());
-					e.printStackTrace();
-				}
+				new SwingWorker<Void, Void>() {
+					private String url;
+					
+					public void execute(String path) {
+						this.url = path;
+						
+						execute();
+					}
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						try {
+							String wsdlSource = HTTPReader.getHTTP(url);
+							final WSDLDefinition threadWSDL = new WSDLDefinition(wsdlSource);
+
+							EventQueue.invokeLater(new Runnable(){
+								@Override
+								public void run(){
+									wsdl = threadWSDL;
+									DebugLogger.Log("WSDL successfully parsed.");
+								}
+							});
+						} catch (final Exception e) {
+							EventQueue.invokeLater(new Runnable(){
+								@Override
+								public void run(){
+									JOptionPane.showMessageDialog(MainWindow.this, e.toString() + "\r\n" + e.getMessage());
+									e.printStackTrace();
+								}
+							});
+						}
+
+						return null;
+					}
+				}.execute(edWsdlUrl.getText());
 			}
 		});
 		contentPane.add(btnParseWsadl, "6, 2");
@@ -111,12 +150,12 @@ public class MainWindow extends JFrame {
 		lblLog = new JLabel("Log:");
 		contentPane.add(lblLog, "2, 8");
 		
-		scrollPane = new JScrollPane();
-		contentPane.add(scrollPane, "2, 10, 5, 1, fill, fill");
+		scrollPaneLog = new JScrollPane();
+		contentPane.add(scrollPaneLog, "2, 10, 5, 1, fill, fill");
 		
 		edLog = new JTextPane();
 		edLog.setEditable(false);
-		scrollPane.setViewportView(edLog);
+		scrollPaneLog.setViewportView(edLog);
 	}
 
 }

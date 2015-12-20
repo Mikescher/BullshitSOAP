@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.samdev.bullshitsoap.DebugLogger;
+import de.samdev.bullshitsoap.parser.messages.WSDLMessage;
 import de.samdev.bullshitsoap.parser.types.WSDLBooleanType;
 import de.samdev.bullshitsoap.parser.types.WSDLByteType;
 import de.samdev.bullshitsoap.parser.types.WSDLComplexType;
@@ -36,6 +37,7 @@ public class WSDLDefinition {
 	
 	private String serviceName;
 	private List<WSDLType> types = new ArrayList<WSDLType>();
+	private List<WSDLMessage> messages = new ArrayList<WSDLMessage>();
 	
 	public WSDLDefinition(String xml) throws WSDLParsingException  {
 		super();
@@ -51,18 +53,33 @@ public class WSDLDefinition {
 		}
 	}
 
-	private void parseWSDL(String xml) throws ParsingException, ValidityException, IOException, WSDLParsingException {
+	private void parseWSDL(String xml) throws NumberFormatException, ParsingException, ValidityException, IOException, WSDLParsingException {
 		Builder parser = new Builder();
 		Document doc = parser.build(xml, null);
 
 		Element root = doc.getRootElement();
 		serviceName = root.getAttributeValue("name");
+		String targetNS = root.getAttributeValue("targetNamespace");
 
+		DebugLogger.Log("Start Parsing Service '%s'", serviceName);
+		
 		Element types = root.getFirstChildElement("types", NS_WSDL);
 		
 		addPrimitiveTypes();
 		parseNamespaces(root);
 		parseTypes(types);
+		parseMessages(root, targetNS);
+	}
+
+	private void parseMessages(Element root, String targetNS) throws NumberFormatException, WSDLParsingException {
+		Elements messagesXML = root.getChildElements("message", NS_WSDL);
+		for (int i = 0; i < messagesXML.size(); i++) {
+			Element messageXML = messagesXML.get(i);
+			String messageName = messageXML.getAttributeValue("name");
+			
+			WSDLMessage newMessage = WSDLMessage.createFromWSDL(this, messageName, targetNS, messageXML);
+			addWSDLMessage(newMessage);
+		}
 	}
 
 	private void addPrimitiveTypes() {
@@ -120,6 +137,11 @@ public class WSDLDefinition {
 		types.add(newType);
 	}
 
+	private void addWSDLMessage(WSDLMessage newMessage) {
+		DebugLogger.Log("Found message definition: %s", newMessage.toDebugString());					
+		messages.add(newMessage);
+	}
+
 	public boolean compareType(String fullValue, String namespace, String value) {
 		String[] split = fullValue.split(":");
 		
@@ -154,5 +176,4 @@ public class WSDLDefinition {
 
 		throw new WSDLParsingException("Can't find type: " + typeName);
 	}
-
 }

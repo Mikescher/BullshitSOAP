@@ -1,6 +1,8 @@
 package de.samdev.bullshitsoap.parser.types;
 
-public abstract class WSDLType {
+import de.samdev.bullshitsoap.parser.IDebugFormattable;
+
+public abstract class WSDLType implements IDebugFormattable {
 	
 	public final String Namespace;
 	public final String Name;
@@ -12,6 +14,7 @@ public abstract class WSDLType {
 		Namespace = ns;
 	}
 	
+	@Override
 	public String toDebugString() {
 		return String.format("%s [%s] %s", GetInternalDebugName(), Name, GetInternalDebugRepresentation());
 	}
