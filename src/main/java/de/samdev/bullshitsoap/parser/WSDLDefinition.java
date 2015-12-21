@@ -210,4 +210,8 @@ public class WSDLDefinition {
 	public Iterable<WSDLOperation> getOperations() {
 		return operations;
 	}
+
+	public String getServiceName() {
+		return serviceName;
+	}
 }

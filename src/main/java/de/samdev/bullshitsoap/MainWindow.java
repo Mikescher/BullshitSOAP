@@ -1,16 +1,34 @@
 package de.samdev.bullshitsoap;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.net.URL;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -21,21 +39,7 @@ import de.samdev.bullshitsoap.DebugLogger.DebugLogListener;
 import de.samdev.bullshitsoap.http.HTTPReader;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.operations.WSDLOperation;
-
-import javax.swing.JTextPane;
-import javax.swing.ListModel;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-import javax.swing.JList;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.JTree;
-import javax.swing.JTabbedPane;
-import java.awt.Font;
-import javax.swing.ScrollPaneConstants;
+import de.samdev.bullshitsoap.templates.WSDLInvoker;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 6293022652906529242L;
@@ -55,13 +59,12 @@ public class MainWindow extends JFrame {
 	private JPanel panel;
 	private JLabel lblParameter;
 	private JLabel lblResult;
-	private JTree treeInput;
-	private JTree treeOutput;
-	private JTabbedPane tabbedPane;
-	private JTabbedPane tabbedPane_1;
-	private JTextArea edRequest;
-	private JTextArea edReponse;
 	private JButton btnInvoke;
+	private JTextArea edRequest;
+	private JTextArea edResponse;
+	private JTextField edPackageName;
+	private JButton btnCreateAPI;
+	private JTextField edServiceName;
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_2;
 
@@ -95,7 +98,7 @@ public class MainWindow extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
 				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("150dlu"),
+				ColumnSpec.decode("150dlu:grow"),
 				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("0dlu:grow"),
 				FormSpecs.RELATED_GAP_COLSPEC,
@@ -117,7 +120,10 @@ public class MainWindow extends JFrame {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("0dlu:grow"),}));
+				RowSpec.decode("0dlu:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,}));
 		
 		panel = new JPanel();
 		contentPane.add(panel, "2, 2, 5, 1, fill, fill");
@@ -167,33 +173,26 @@ public class MainWindow extends JFrame {
 		lblResult = new JLabel("Result:");
 		contentPane.add(lblResult, "6, 8");
 		
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		contentPane.add(tabbedPane, "4, 10, fill, fill");
-		
-		treeInput = new JTree();
-		tabbedPane.addTab("Values", null, treeInput, null);
-		
-		scrollPane_2 = new JScrollPane();
-		tabbedPane.addTab("Request", null, scrollPane_2, null);
+		scrollPane = new JScrollPane();
+		contentPane.add(scrollPane, "4, 10, fill, fill");
 		
 		edRequest = new JTextArea();
-		scrollPane_2.setViewportView(edRequest);
-		edRequest.setEditable(false);
+		scrollPane.setViewportView(edRequest);
+		edRequest.setLineWrap(true);
 		
-		tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		contentPane.add(tabbedPane_1, "6, 10, 1, 3, fill, fill");
+		scrollPane_2 = new JScrollPane();
+		contentPane.add(scrollPane_2, "6, 10, 1, 3, fill, fill");
 		
-		treeOutput = new JTree();
-		tabbedPane_1.addTab("Values", null, treeOutput, null);
-		
-		scrollPane = new JScrollPane();
-		tabbedPane_1.addTab("Response", null, scrollPane, null);
-		
-		edReponse = new JTextArea();
-		scrollPane.setViewportView(edReponse);
-		edReponse.setEditable(false);
+		edResponse = new JTextArea();
+		scrollPane_2.setViewportView(edResponse);
 		
 		btnInvoke = new JButton("Invoke");
+		btnInvoke.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				InvokeWSDL();
+			}
+		});
 		contentPane.add(btnInvoke, "4, 12");
 		
 		lblLog = new JLabel("Log:");
@@ -208,6 +207,43 @@ public class MainWindow extends JFrame {
 		edLog.setWrapStyleWord(true);
 		edLog.setEditable(false);
 		scrollPaneLog.setViewportView(edLog);
+		
+		edPackageName = new JTextField();
+		edPackageName.setText("de.samdev.api");
+		contentPane.add(edPackageName, "2, 18, fill, default");
+		edPackageName.setColumns(10);
+		
+		edServiceName = new JTextField();
+		contentPane.add(edServiceName, "4, 18, fill, default");
+		edServiceName.setColumns(10);
+		
+		btnCreateAPI = new JButton("Create");
+		contentPane.add(btnCreateAPI, "6, 18");
+	}
+
+	public static String prettyFormat(String input, int indent) {
+	    try {
+	        Source xmlInput = new StreamSource(new StringReader(input));
+	        StringWriter stringWriter = new StringWriter();
+	        StreamResult xmlOutput = new StreamResult(stringWriter);
+	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	        //transformerFactory.setAttribute("indent-number", indent);
+	        Transformer transformer = transformerFactory.newTransformer(); 
+	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+	        transformer.transform(xmlInput, xmlOutput);
+	        return xmlOutput.getWriter().toString();
+	    } catch (Exception e) {
+	        throw new RuntimeException(e); // simple exception handling, please review it
+	    }
+	}
+	
+	protected void InvokeWSDL() {
+		try {
+			edResponse.setText(prettyFormat(new WSDLInvoker(new URL(edWsdlUrl.getText())).getReponse(edRequest.getText()), 2));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(MainWindow.this, e.toString() + "\r\n" + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	protected void SelectOperation(WSDLOperation operation) {
@@ -222,6 +258,8 @@ public class MainWindow extends JFrame {
 			opList.addElement(operation);
 		}
 		listOperations.setModel(opList);
+		
+		edServiceName.setText(wsdl.getServiceName());
 	}
 
 	private void parseWSDL() {
