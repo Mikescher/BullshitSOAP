@@ -2,13 +2,13 @@ package de.samdev.bullshitsoap.parser.types;
 
 import de.samdev.bullshitsoap.parser.IDebugFormattable;
 
-public class WSDLSequenceElementType implements IDebugFormattable {
+public class WSDLSequenceElementTypeDefinition implements IDebugFormattable {
 	public final String name;
 	public final int minOccurs;
 	public final int maxOccurs;
-	public final WSDLType type;
+	public final WSDLTypeDefinition type;
 	
-	public WSDLSequenceElementType(String name, int min, int max, WSDLType t) {
+	public WSDLSequenceElementTypeDefinition(String name, int min, int max, WSDLTypeDefinition t) {
 		this.name = name;
 		this.minOccurs = min;
 		this.maxOccurs = max;

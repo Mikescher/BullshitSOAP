@@ -7,7 +7,7 @@ import java.util.TimeZone;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
 
-public class WSDLDateType extends WSDLPrimitiveType {
+public class WSDLDateTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	private final static SimpleDateFormat[] WSDL_DATEFORMAT = new SimpleDateFormat[]
 	{
 		createSimpleDateFormat("yyyy-MM-dd'Z'"),
@@ -22,7 +22,7 @@ public class WSDLDateType extends WSDLPrimitiveType {
 		return sdf;
 	}
 	
-	public WSDLDateType() {
+	public WSDLDateTypeDefinition() {
 		super("date", WSDLDefinition.NS_XSD);
 	}
 
@@ -35,5 +35,11 @@ public class WSDLDateType extends WSDLPrimitiveType {
 		}
 
 		throw new WSDLParsingException("Can'T parse primitive: " + value);
+	}
+
+	@Override
+	public String generateClassCode() {
+		// TODO IMPLEMENT GENERATE CLASS CODE
+		return null;
 	}
 }

@@ -2,11 +2,11 @@ package de.samdev.bullshitsoap.parser.types;
 
 import de.samdev.bullshitsoap.parser.IDebugFormattable;
 
-public class WSDLObjectElementType implements IDebugFormattable {
+public class WSDLObjectElementTypeDefinition implements IDebugFormattable {
 	public final String name;
-	public final WSDLType type;
+	public final WSDLTypeDefinition type;
 	
-	public WSDLObjectElementType(String name, WSDLType t) {
+	public WSDLObjectElementTypeDefinition(String name, WSDLTypeDefinition t) {
 		this.name = name;
 		this.type = t;
 	}

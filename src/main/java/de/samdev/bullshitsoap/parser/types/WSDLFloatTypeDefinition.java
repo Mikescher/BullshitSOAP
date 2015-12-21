@@ -3,18 +3,24 @@ package de.samdev.bullshitsoap.parser.types;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
 
-public class WSDLIntegerType extends WSDLPrimitiveType {
+public class WSDLFloatTypeDefinition extends WSDLPrimitiveTypeDefinition {
 
-	public WSDLIntegerType() {
-		super("int", WSDLDefinition.NS_XSD);
+	public WSDLFloatTypeDefinition() {
+		super("float", WSDLDefinition.NS_XSD);
 	}
 
 	@Override
 	public Object parseFromString(String value) throws WSDLParsingException {
 		try {
-			return Integer.valueOf(value);
+			return Float.valueOf(value);
 		} catch (NumberFormatException e) {
 			throw new WSDLParsingException(e);
 		}
+	}
+
+	@Override
+	public String generateClassCode() {
+		// TODO IMPLEMENT GENERATE CLASS CODE
+		return null;
 	}
 }

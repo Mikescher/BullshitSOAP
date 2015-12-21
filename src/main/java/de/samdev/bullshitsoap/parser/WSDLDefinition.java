@@ -1,5 +1,6 @@
 package de.samdev.bullshitsoap.parser;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,20 +8,21 @@ import java.util.List;
 import java.util.Map;
 
 import de.samdev.bullshitsoap.DebugLogger;
+import de.samdev.bullshitsoap.parser.helper.PathHelper;
 import de.samdev.bullshitsoap.parser.messages.WSDLMessage;
 import de.samdev.bullshitsoap.parser.operations.WSDLOperation;
-import de.samdev.bullshitsoap.parser.types.WSDLBooleanType;
-import de.samdev.bullshitsoap.parser.types.WSDLByteType;
-import de.samdev.bullshitsoap.parser.types.WSDLComplexType;
-import de.samdev.bullshitsoap.parser.types.WSDLDateTimeType;
-import de.samdev.bullshitsoap.parser.types.WSDLDateType;
-import de.samdev.bullshitsoap.parser.types.WSDLDoubleType;
-import de.samdev.bullshitsoap.parser.types.WSDLFloatType;
-import de.samdev.bullshitsoap.parser.types.WSDLIntegerType;
-import de.samdev.bullshitsoap.parser.types.WSDLLongType;
-import de.samdev.bullshitsoap.parser.types.WSDLSimpleType;
-import de.samdev.bullshitsoap.parser.types.WSDLStringType;
-import de.samdev.bullshitsoap.parser.types.WSDLType;
+import de.samdev.bullshitsoap.parser.types.WSDLBooleanTypeDefinition;
+import de.samdev.bullshitsoap.parser.types.WSDLByteTypeDefinition;
+import de.samdev.bullshitsoap.parser.types.WSDLComplexTypeDefinition;
+import de.samdev.bullshitsoap.parser.types.WSDLDateTimeTypeDefinition;
+import de.samdev.bullshitsoap.parser.types.WSDLDateTypeDefinition;
+import de.samdev.bullshitsoap.parser.types.WSDLDoubleTypeDefinition;
+import de.samdev.bullshitsoap.parser.types.WSDLFloatTypeDefinition;
+import de.samdev.bullshitsoap.parser.types.WSDLIntegerTypeDefinition;
+import de.samdev.bullshitsoap.parser.types.WSDLLongTypeDefinition;
+import de.samdev.bullshitsoap.parser.types.WSDLSimpleTypeDefinition;
+import de.samdev.bullshitsoap.parser.types.WSDLStringTypeDefinition;
+import de.samdev.bullshitsoap.parser.types.WSDLTypeDefinition;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -37,7 +39,7 @@ public class WSDLDefinition {
 	private Map<String, String> namespaces = new HashMap<String, String>(); 
 	
 	private String serviceName;
-	private List<WSDLType> types = new ArrayList<WSDLType>();
+	private List<WSDLTypeDefinition> types = new ArrayList<WSDLTypeDefinition>();
 	private List<WSDLMessage> messages = new ArrayList<WSDLMessage>();
 	private List<WSDLOperation> operations = new ArrayList<WSDLOperation>();
 	
@@ -100,19 +102,19 @@ public class WSDLDefinition {
 	}
 
 	private void addPrimitiveTypes() {
-		addWSDLType(new WSDLBooleanType());
+		addWSDLType(new WSDLBooleanTypeDefinition());
 		
-		addWSDLType(new WSDLStringType());
+		addWSDLType(new WSDLStringTypeDefinition());
 		
-		addWSDLType(new WSDLByteType());
-		addWSDLType(new WSDLIntegerType());
-		addWSDLType(new WSDLLongType());
+		addWSDLType(new WSDLByteTypeDefinition());
+		addWSDLType(new WSDLIntegerTypeDefinition());
+		addWSDLType(new WSDLLongTypeDefinition());
 		
-		addWSDLType(new WSDLDoubleType());
-		addWSDLType(new WSDLFloatType());
+		addWSDLType(new WSDLDoubleTypeDefinition());
+		addWSDLType(new WSDLFloatTypeDefinition());
 		
-		addWSDLType(new WSDLDateType());
-		addWSDLType(new WSDLDateTimeType());
+		addWSDLType(new WSDLDateTypeDefinition());
+		addWSDLType(new WSDLDateTimeTypeDefinition());
 	}
 
 	private void parseNamespaces(Element root) {
@@ -136,7 +138,7 @@ public class WSDLDefinition {
 		for (int i = 0; i < simpleTypes.size(); i++) {
 			Element simpleTypeXML = simpleTypes.get(i);
 
-			WSDLType newType = WSDLSimpleType.createFromWSDL(this, simpleTypeXML, targetNS);
+			WSDLTypeDefinition newType = WSDLSimpleTypeDefinition.createFromWSDL(this, simpleTypeXML, targetNS);
 			addWSDLType(newType);
 		}
 		
@@ -144,12 +146,12 @@ public class WSDLDefinition {
 		for (int i = 0; i < complexTypes.size(); i++) {
 			Element complexTypeXML = complexTypes.get(i);
 
-			WSDLType newType = WSDLComplexType.createFromWSDL(this, complexTypeXML, targetNS);
+			WSDLTypeDefinition newType = WSDLComplexTypeDefinition.createFromWSDL(this, complexTypeXML, targetNS);
 			addWSDLType(newType);
 		}
 	}
 
-	private void addWSDLType(WSDLType newType) {
+	private void addWSDLType(WSDLTypeDefinition newType) {
 		DebugLogger.Log("Found type definition: %s", newType.toDebugString());					
 		types.add(newType);
 	}
@@ -176,8 +178,8 @@ public class WSDLDefinition {
 		return namespaces.get(split[0].toLowerCase()).equalsIgnoreCase(namespace) && split[1].equalsIgnoreCase(value);
 	}
 
-	public WSDLType getWSDLType(String typeName) throws WSDLParsingException {
-		for (WSDLType wsdlType : types) {
+	public WSDLTypeDefinition getWSDLType(String typeName) throws WSDLParsingException {
+		for (WSDLTypeDefinition wsdlType : types) {
 			if (compareNSValue(typeName, wsdlType.Namespace, wsdlType.Name)) return wsdlType;
 		}
 
@@ -185,8 +187,8 @@ public class WSDLDefinition {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends WSDLType> T getSpecificWSDLType(String typeName) throws WSDLParsingException {
-		for (WSDLType wsdlType : types) {
+	public <T extends WSDLTypeDefinition> T getSpecificWSDLType(String typeName) throws WSDLParsingException {
+		for (WSDLTypeDefinition wsdlType : types) {
 			if (compareNSValue(typeName, wsdlType.Namespace, wsdlType.Name)) {
 				try {
 					return (T)wsdlType;
@@ -213,5 +215,25 @@ public class WSDLDefinition {
 
 	public String getServiceName() {
 		return serviceName;
+	}
+	
+	public void createAPIClasses(String basePath, String basePackage) {
+		basePackage = basePackage + "." + serviceName;
+		
+		String servicePackagePath = PathHelper.combinePaths(basePath, basePackage.replaceAll("\\.", "\\"));
+		
+		{
+			
+		}
+		
+		for (WSDLTypeDefinition type : types) {
+			String code = type.generateClassCode();
+			String classname = type.getClassCodeName();
+			File outFile = new File(PathHelper.combinePaths(servicePackagePath, "types", classname + ".java"));
+			
+			outFile.mkdir();
+			
+			PathHelper.writeTextFile(outFile, code);
+		}
 	}
 }

@@ -2,9 +2,9 @@ package de.samdev.bullshitsoap.parser.types;
 
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
 
-public abstract class WSDLPrimitiveType extends WSDLSimpleType {
+public abstract class WSDLPrimitiveTypeDefinition extends WSDLSimpleTypeDefinition {
 
-	protected WSDLPrimitiveType(String name, String ns) {
+	protected WSDLPrimitiveTypeDefinition(String name, String ns) {
 		super(name, ns);
 	}
 

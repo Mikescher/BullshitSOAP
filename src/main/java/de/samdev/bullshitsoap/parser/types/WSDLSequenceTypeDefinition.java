@@ -9,17 +9,17 @@ import de.samdev.bullshitsoap.parser.helper.StringHelper;
 import nu.xom.Element;
 import nu.xom.Elements;
 
-public class WSDLSequenceType extends WSDLComplexType {
-	private final List<WSDLSequenceElementType> fields;
+public class WSDLSequenceTypeDefinition extends WSDLComplexTypeDefinition {
+	private final List<WSDLSequenceElementTypeDefinition> fields;
 	
-	protected WSDLSequenceType(String name, String ns, List<WSDLSequenceElementType> fieldList) {
+	protected WSDLSequenceTypeDefinition(String name, String ns, List<WSDLSequenceElementTypeDefinition> fieldList) {
 		super(name, ns);
 		
 		fields = fieldList;
 	}
 
-	public static WSDLSequenceType createFromWSDL(WSDLDefinition wsdl, String name, String namespace, Element root) throws NumberFormatException, WSDLParsingException {
-		List<WSDLSequenceElementType> fields = new ArrayList<WSDLSequenceElementType>();
+	public static WSDLSequenceTypeDefinition createFromWSDL(WSDLDefinition wsdl, String name, String namespace, Element root) throws NumberFormatException, WSDLParsingException {
+		List<WSDLSequenceElementTypeDefinition> fields = new ArrayList<WSDLSequenceElementTypeDefinition>();
 
 		int baseMinOccurs = 1;
 		int baseMaxOccurs = 1;
@@ -37,13 +37,13 @@ public class WSDLSequenceType extends WSDLComplexType {
 			if (element.getAttribute("minOccurs") != null) minOccurs = parseBound(element.getAttributeValue("minOccurs"));
 			if (element.getAttribute("maxOccurs") != null) maxOccurs = parseBound(element.getAttributeValue("maxOccurs"));
 			
-			WSDLType type = wsdl.getWSDLType(element.getAttributeValue("type"));
+			WSDLTypeDefinition type = wsdl.getWSDLType(element.getAttributeValue("type"));
 			String elementName = element.getAttributeValue("name");
 			
-			fields.add(new WSDLSequenceElementType(elementName, minOccurs, maxOccurs, type));
+			fields.add(new WSDLSequenceElementTypeDefinition(elementName, minOccurs, maxOccurs, type));
 		}
 		
-		return new WSDLSequenceType(name, namespace, fields);
+		return new WSDLSequenceTypeDefinition(name, namespace, fields);
 	}
 	
 	private static int parseBound(String value) {
@@ -60,5 +60,11 @@ public class WSDLSequenceType extends WSDLComplexType {
 	@Override
 	public String GetInternalDebugName() {
 		return "sequence";
+	}
+
+	@Override
+	public String generateClassCode() {
+		// TODO IMPLEMENT GENERATE CLASS CODE
+		return null;
 	}
 }

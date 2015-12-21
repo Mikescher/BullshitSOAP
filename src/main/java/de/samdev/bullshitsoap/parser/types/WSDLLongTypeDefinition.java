@@ -3,9 +3,9 @@ package de.samdev.bullshitsoap.parser.types;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
 
-public class WSDLLongType extends WSDLPrimitiveType {
+public class WSDLLongTypeDefinition extends WSDLPrimitiveTypeDefinition {
 
-	public WSDLLongType() {
+	public WSDLLongTypeDefinition() {
 		super("long", WSDLDefinition.NS_XSD);
 	}
 
@@ -16,5 +16,11 @@ public class WSDLLongType extends WSDLPrimitiveType {
 		} catch (NumberFormatException e) {
 			throw new WSDLParsingException(e);
 		}
+	}
+
+	@Override
+	public String generateClassCode() {
+		// TODO IMPLEMENT GENERATE CLASS CODE
+		return null;
 	}
 }

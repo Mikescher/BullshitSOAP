@@ -9,30 +9,30 @@ import de.samdev.bullshitsoap.parser.helper.StringHelper;
 import nu.xom.Element;
 import nu.xom.Elements;
 
-public class WSDLObjectType extends WSDLComplexType {
+public class WSDLObjectTypeDefinition extends WSDLComplexTypeDefinition {
 
-	private final List<WSDLObjectElementType> fields;
+	private final List<WSDLObjectElementTypeDefinition> fields;
 	
-	protected WSDLObjectType(String name, String ns, List<WSDLObjectElementType> elements) {
+	protected WSDLObjectTypeDefinition(String name, String ns, List<WSDLObjectElementTypeDefinition> elements) {
 		super(name, ns);
 		
 		fields = elements;
 	}
 
-	public static WSDLObjectType createFromWSDL(WSDLDefinition wsdl, String name, String namespace, Element root) throws NumberFormatException, WSDLParsingException {
-		List<WSDLObjectElementType> types = new ArrayList<WSDLObjectElementType>();
+	public static WSDLObjectTypeDefinition createFromWSDL(WSDLDefinition wsdl, String name, String namespace, Element root) throws NumberFormatException, WSDLParsingException {
+		List<WSDLObjectElementTypeDefinition> types = new ArrayList<WSDLObjectElementTypeDefinition>();
 		
 		Elements elements = root.getChildElements("element", WSDLDefinition.NS_XSD);
 		for (int i = 0; i < elements.size(); i++) {
 			Element element = elements.get(i);
 			
-			WSDLType type = wsdl.getWSDLType(element.getAttributeValue("type"));
+			WSDLTypeDefinition type = wsdl.getWSDLType(element.getAttributeValue("type"));
 			String elementName = element.getAttributeValue("name");
 			
-			types.add(new WSDLObjectElementType(elementName, type));
+			types.add(new WSDLObjectElementTypeDefinition(elementName, type));
 		}
 		
-		return new WSDLObjectType(name, namespace, types);
+		return new WSDLObjectTypeDefinition(name, namespace, types);
 	}
 
 	@Override
@@ -43,5 +43,11 @@ public class WSDLObjectType extends WSDLComplexType {
 	@Override
 	public String GetInternalDebugName() {
 		return "object";
+	}
+
+	@Override
+	public String generateClassCode() {
+		// TODO IMPLEMENT GENERATE CLASS CODE
+		return null;
 	}
 }

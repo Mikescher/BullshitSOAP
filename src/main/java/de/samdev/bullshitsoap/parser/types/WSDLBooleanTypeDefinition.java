@@ -3,9 +3,9 @@ package de.samdev.bullshitsoap.parser.types;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
 
-public class WSDLBooleanType extends WSDLPrimitiveType {
+public class WSDLBooleanTypeDefinition extends WSDLPrimitiveTypeDefinition {
 
-	public WSDLBooleanType() {
+	public WSDLBooleanTypeDefinition() {
 		super("boolean", WSDLDefinition.NS_XSD);
 	}
 
@@ -15,5 +15,11 @@ public class WSDLBooleanType extends WSDLPrimitiveType {
 		if (value.equalsIgnoreCase("false")) return Boolean.FALSE;
 		
 		throw new WSDLParsingException("Can'T parse primitive: " + value);
+	}
+
+	@Override
+	public String generateClassCode() {
+		// TODO IMPLEMENT GENERATE CLASS CODE
+		return null;
 	}
 }

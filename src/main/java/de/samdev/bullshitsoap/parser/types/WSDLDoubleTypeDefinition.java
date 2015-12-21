@@ -3,9 +3,9 @@ package de.samdev.bullshitsoap.parser.types;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
 
-public class WSDLDoubleType extends WSDLPrimitiveType {
+public class WSDLDoubleTypeDefinition extends WSDLPrimitiveTypeDefinition {
 
-	public WSDLDoubleType() {
+	public WSDLDoubleTypeDefinition() {
 		super("double", WSDLDefinition.NS_XSD);
 	}
 
@@ -16,5 +16,11 @@ public class WSDLDoubleType extends WSDLPrimitiveType {
 		} catch (NumberFormatException e) {
 			throw new WSDLParsingException(e);
 		}
+	}
+
+	@Override
+	public String generateClassCode() {
+		// TODO IMPLEMENT GENERATE CLASS CODE
+		return null;
 	}
 }

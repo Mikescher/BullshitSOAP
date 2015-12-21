@@ -38,6 +38,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import de.samdev.bullshitsoap.DebugLogger.DebugLogListener;
 import de.samdev.bullshitsoap.http.HTTPReader;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
+import de.samdev.bullshitsoap.parser.helper.PathHelper;
 import de.samdev.bullshitsoap.parser.operations.WSDLOperation;
 import de.samdev.bullshitsoap.templates.WSDLInvoker;
 
@@ -51,7 +52,7 @@ public class MainWindow extends JFrame {
 	private JButton btnParseWsdl;
 	private JTextArea edLog;
 	private JLabel lblNewLabel;
-	private JList<WSDLOperation> listOperations;
+	private JList listOperations;
 	private JScrollPane scrollPaneLog;
 	private JScrollPane scrollPane_1;
 	private JLabel lblLog;
@@ -64,9 +65,9 @@ public class MainWindow extends JFrame {
 	private JTextArea edResponse;
 	private JTextField edPackageName;
 	private JButton btnCreateAPI;
-	private JTextField edServiceName;
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_2;
+	private JTextField edOutputPath;
 
 	public MainWindow() {
 		initGUI();
@@ -98,11 +99,13 @@ public class MainWindow extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
 				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("150dlu:grow"),
+				ColumnSpec.decode("60dlu:grow"),
 				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("0dlu:grow"),
+				ColumnSpec.decode("60dlu:grow"),
 				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("0dlu:grow"),
+				ColumnSpec.decode("0dlu:grow(2)"),
+				FormSpecs.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("0dlu:grow(2)"),
 				FormSpecs.RELATED_GAP_COLSPEC,},
 			new RowSpec[] {
 				FormSpecs.RELATED_GAP_ROWSPEC,
@@ -126,7 +129,7 @@ public class MainWindow extends JFrame {
 				FormSpecs.RELATED_GAP_ROWSPEC,}));
 		
 		panel = new JPanel();
-		contentPane.add(panel, "2, 2, 5, 1, fill, fill");
+		contentPane.add(panel, "2, 2, 7, 1, fill, fill");
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("default:grow"),
 				FormSpecs.UNRELATED_GAP_COLSPEC,
@@ -149,39 +152,39 @@ public class MainWindow extends JFrame {
 		});
 		
 		lblNewLabel = new JLabel("Operations:");
-		contentPane.add(lblNewLabel, "2, 4, 5, 1");
+		contentPane.add(lblNewLabel, "2, 4, 7, 1");
 		
 		scrollPane_1 = new JScrollPane();
-		contentPane.add(scrollPane_1, "2, 6, 1, 7, fill, fill");
+		contentPane.add(scrollPane_1, "2, 6, 3, 7, fill, fill");
 		
-		listOperations = new JList<WSDLOperation>();
+		listOperations = new JList();
 		listOperations.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				SelectOperation(listOperations.getModel().getElementAt(e.getFirstIndex()));
+				SelectOperation((WSDLOperation) listOperations.getModel().getElementAt(e.getFirstIndex()));
 			}
 		});
 		scrollPane_1.setViewportView(listOperations);
 		
 		lblDescription = new JLabel("%Documentation%");
 		lblDescription.setFont(new Font("Dialog", Font.ITALIC, 12));
-		contentPane.add(lblDescription, "4, 6, 3, 1");
+		contentPane.add(lblDescription, "6, 6, 3, 1");
 		
 		lblParameter = new JLabel("Parameter:");
-		contentPane.add(lblParameter, "4, 8");
+		contentPane.add(lblParameter, "6, 8");
 		
 		lblResult = new JLabel("Result:");
-		contentPane.add(lblResult, "6, 8");
+		contentPane.add(lblResult, "8, 8");
 		
 		scrollPane = new JScrollPane();
-		contentPane.add(scrollPane, "4, 10, fill, fill");
+		contentPane.add(scrollPane, "6, 10, fill, fill");
 		
 		edRequest = new JTextArea();
 		scrollPane.setViewportView(edRequest);
 		edRequest.setLineWrap(true);
 		
 		scrollPane_2 = new JScrollPane();
-		contentPane.add(scrollPane_2, "6, 10, 1, 3, fill, fill");
+		contentPane.add(scrollPane_2, "8, 10, 1, 3, fill, fill");
 		
 		edResponse = new JTextArea();
 		scrollPane_2.setViewportView(edResponse);
@@ -193,14 +196,14 @@ public class MainWindow extends JFrame {
 				InvokeWSDL();
 			}
 		});
-		contentPane.add(btnInvoke, "4, 12");
+		contentPane.add(btnInvoke, "6, 12");
 		
 		lblLog = new JLabel("Log:");
-		contentPane.add(lblLog, "2, 14");
+		contentPane.add(lblLog, "2, 14, 3, 1");
 		
 		scrollPaneLog = new JScrollPane();
 		scrollPaneLog.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		contentPane.add(scrollPaneLog, "2, 16, 5, 1, fill, fill");
+		contentPane.add(scrollPaneLog, "2, 16, 7, 1, fill, fill");
 		
 		edLog = new JTextArea();
 		edLog.setLineWrap(true);
@@ -208,26 +211,39 @@ public class MainWindow extends JFrame {
 		edLog.setEditable(false);
 		scrollPaneLog.setViewportView(edLog);
 		
+		edOutputPath = new JTextField();
+		contentPane.add(edOutputPath, "4, 18, fill, fill");
+		edOutputPath.setText("src/main");
+		edOutputPath.setColumns(10);
+		
 		edPackageName = new JTextField();
-		edPackageName.setText("de.samdev.api");
-		contentPane.add(edPackageName, "2, 18, fill, default");
+		edPackageName.setText("de.samdev.bullshitsoap");
+		contentPane.add(edPackageName, "6, 18, fill, fill");
 		edPackageName.setColumns(10);
 		
-		edServiceName = new JTextField();
-		contentPane.add(edServiceName, "4, 18, fill, default");
-		edServiceName.setColumns(10);
-		
 		btnCreateAPI = new JButton("Create");
-		contentPane.add(btnCreateAPI, "6, 18");
+		btnCreateAPI.setEnabled(false);
+		btnCreateAPI.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					wsdl.createAPIClasses(PathHelper.combinePaths(System.getProperty("user.dir"), edOutputPath.getText()), edPackageName.getText());
+				}catch (Exception e) {
+					JOptionPane.showMessageDialog(MainWindow.this, e.toString() + "\r\n" + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		});
+		contentPane.add(btnCreateAPI, "8, 18");
 	}
 
-	public static String prettyFormat(String input, int indent) {
+	public static String prettyFormat(String input) {
 	    try {
 	        Source xmlInput = new StreamSource(new StringReader(input));
 	        StringWriter stringWriter = new StringWriter();
 	        StreamResult xmlOutput = new StreamResult(stringWriter);
 	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	        //transformerFactory.setAttribute("indent-number", indent);
+	        //transformerFactory.setAttribute("indent-number", 2);
 	        Transformer transformer = transformerFactory.newTransformer(); 
 	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 	        transformer.transform(xmlInput, xmlOutput);
@@ -239,7 +255,7 @@ public class MainWindow extends JFrame {
 	
 	protected void InvokeWSDL() {
 		try {
-			edResponse.setText(prettyFormat(new WSDLInvoker(new URL(edWsdlUrl.getText())).getReponse(edRequest.getText()), 2));
+			edResponse.setText(prettyFormat(new WSDLInvoker(new URL(edWsdlUrl.getText())).getReponse(edRequest.getText())));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(MainWindow.this, e.toString() + "\r\n" + e.getMessage());
 			e.printStackTrace();
@@ -253,13 +269,14 @@ public class MainWindow extends JFrame {
 	private void SetWSDL(WSDLDefinition wsdl) {
 		this.wsdl = wsdl;
 		
-		DefaultListModel<WSDLOperation> opList = new DefaultListModel<WSDLOperation>();
+		DefaultListModel opList = new DefaultListModel();
 		for (WSDLOperation operation : wsdl.getOperations()) {
 			opList.addElement(operation);
 		}
 		listOperations.setModel(opList);
 		
-		edServiceName.setText(wsdl.getServiceName());
+		setTitle("BullshitSOAP - " + wsdl.getServiceName());
+		btnCreateAPI.setEnabled(true);
 	}
 
 	private void parseWSDL() {

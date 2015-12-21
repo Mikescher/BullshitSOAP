@@ -7,7 +7,7 @@ import de.samdev.bullshitsoap.parser.IDebugFormattable;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
 import de.samdev.bullshitsoap.parser.helper.StringHelper;
-import de.samdev.bullshitsoap.parser.types.WSDLType;
+import de.samdev.bullshitsoap.parser.types.WSDLTypeDefinition;
 import nu.xom.Element;
 import nu.xom.Elements;
 
@@ -31,7 +31,7 @@ public class WSDLMessage implements IDebugFormattable {
 		for (int i = 0; i < parts.size(); i++) {
 			Element partXML = parts.get(i);
 			String partName = partXML.getAttributeValue("name");
-			WSDLType partType = wsdl.getWSDLType(partXML.getAttributeValue("type"));
+			WSDLTypeDefinition partType = wsdl.getWSDLType(partXML.getAttributeValue("type"));
 			
 			fields.add(new WSDLMessagePart(partName, partType));
 		}

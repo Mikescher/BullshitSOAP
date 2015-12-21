@@ -3,7 +3,7 @@ package de.samdev.bullshitsoap.parser.helper;
 import java.util.List;
 
 import de.samdev.bullshitsoap.parser.IDebugFormattable;
-import de.samdev.bullshitsoap.parser.types.WSDLType;
+import de.samdev.bullshitsoap.parser.types.WSDLTypeDefinition;
 
 public class StringHelper {
 	public static String joinStringRep(String glue, List<?> list) {
@@ -36,7 +36,7 @@ public class StringHelper {
 		return b.toString();
 	}
 	
-	public static String join(String glue, WSDLType[] list) {
+	public static String join(String glue, WSDLTypeDefinition[] list) {
 		StringBuilder b = new StringBuilder();
 		
 		for (int i = 0; i < list.length; i++) {
