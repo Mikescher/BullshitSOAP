@@ -1,0 +1,63 @@
+package de.samdev.bullshitsoap.templates.messages;
+
+import java.io.IOException;
+
+import de.samdev.bullshitsoap.templates.WSDLNamespaceCollection;
+import de.samdev.bullshitsoap.templates.types.*;
+import nu.xom.Attribute;
+import nu.xom.Attribute.Type;
+import nu.xom.Document;
+import nu.xom.Element;
+
+/**DISCLAIMER**/
+
+public class $CLASSNAME$ extends WSDLMessage {
+
+    %CLASSFIELDS%
+	
+	private $CLASSNAME$(%PARAMS%) {
+		super(WSDLNamespaceCollection.NAMESPACE_PATH_SERVICE_BASE);
+		
+		%FIELDINIT%
+	}
+	
+	@Override
+	public Document serialize() {
+		Element envelope = new Element("envelope", WSDLNamespaceCollection.NAMESPACE_PATH_SOAP_ENVELOPE);
+		
+		envelope.addNamespaceDeclaration(WSDLNamespaceCollection.NAMESPACE_PREFIX_SOAP_ENVELOPE, WSDLNamespaceCollection.NAMESPACE_PATH_SOAP_ENVELOPE);
+		envelope.addNamespaceDeclaration(WSDLNamespaceCollection.NAMESPACE_PREFIX_SOAP_ENCODING, WSDLNamespaceCollection.NAMESPACE_PATH_SOAP_ENCODING);
+		envelope.addNamespaceDeclaration(WSDLNamespaceCollection.NAMESPACE_PREFIX_SERVICE_BASE, WSDLNamespaceCollection.NAMESPACE_PATH_SERVICE_BASE);
+		envelope.addNamespaceDeclaration(WSDLNamespaceCollection.NAMESPACE_PREFIX_SERVICE_TYPES, WSDLNamespaceCollection.NAMESPACE_PATH_SERVICE_TYPES);
+		envelope.addNamespaceDeclaration(WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMAINSTANCE, WSDLNamespaceCollection.NAMESPACE_PATH_XML_SCHEMAINSTANCE);
+		envelope.addNamespaceDeclaration(WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMA, WSDLNamespaceCollection.NAMESPACE_PATH_XML_SCHEMA);
+		
+		Element body = new Element("body", WSDLNamespaceCollection.NAMESPACE_PATH_SOAP_ENVELOPE);
+		body.addAttribute(new Attribute("encodingStyle", WSDLNamespaceCollection.NAMESPACE_PATH_XML_SCHEMAINSTANCE, WSDLNamespaceCollection.NAMESPACE_PATH_SOAP_ENCODING, Type.CDATA));
+
+		Element message = new Element("%MESSAGENAME%");
+		
+		%FIELDSERIALIZE%
+		
+		body.appendChild(message);
+		envelope.appendChild(body);
+		
+		Document d = new Document(envelope);
+		
+		return d;
+	}
+	
+	public static $CLASSNAME$ createFromXML(Document d) throws IOException {
+		Element envelope = d.getRootElement();
+		Element body = envelope.getFirstChildElement("body", WSDLNamespaceCollection.NAMESPACE_PATH_SOAP_ENVELOPE);
+		Element message = body.getFirstChildElement("%MESSAGENAME%");
+		
+		%FIELDDESERIALIZE%
+		
+		return new $CLASSNAME$(%CREATEPARAMS%);
+	}
+	
+	public static $CLASSNAME$ create(%PARAMS%) {
+		return new $CLASSNAME$(%FLATPARAMS%);
+	}
+}

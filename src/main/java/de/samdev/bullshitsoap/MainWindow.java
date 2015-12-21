@@ -36,11 +36,11 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
 import de.samdev.bullshitsoap.DebugLogger.DebugLogListener;
+import de.samdev.bullshitsoap.comunioWebService.WSDLInvoker;
 import de.samdev.bullshitsoap.http.HTTPReader;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.helper.PathHelper;
 import de.samdev.bullshitsoap.parser.operations.WSDLOperation;
-import de.samdev.bullshitsoap.templates.WSDLInvoker;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 6293022652906529242L;

@@ -1,13 +1,13 @@
-package de.samdev.bullshitsoap.parser.messages;
+package de.samdev.bullshitsoap.parser.messagedefinitions;
 
 import de.samdev.bullshitsoap.parser.IDebugFormattable;
 import de.samdev.bullshitsoap.parser.typedefinitions.WSDLTypeDefinition;
 
-public class WSDLMessagePart implements IDebugFormattable {
+public class WSDLMessageDefinitionPart implements IDebugFormattable {
 	public final String Name;
 	public final WSDLTypeDefinition Type;
 	
-	public WSDLMessagePart(String name, WSDLTypeDefinition type) {
+	public WSDLMessageDefinitionPart(String name, WSDLTypeDefinition type) {
 		super();
 		
 		Name = name;

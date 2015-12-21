@@ -10,7 +10,7 @@ import java.util.Map;
 
 import de.samdev.bullshitsoap.DebugLogger;
 import de.samdev.bullshitsoap.parser.helper.PathHelper;
-import de.samdev.bullshitsoap.parser.messages.WSDLMessage;
+import de.samdev.bullshitsoap.parser.messagedefinitions.WSDLMessageDefinition;
 import de.samdev.bullshitsoap.parser.operations.WSDLOperation;
 import de.samdev.bullshitsoap.parser.typedefinitions.WSDLBooleanTypeDefinition;
 import de.samdev.bullshitsoap.parser.typedefinitions.WSDLByteTypeDefinition;
@@ -41,7 +41,7 @@ public class WSDLDefinition {
 	
 	private String serviceName;
 	private List<WSDLTypeDefinition> types = new ArrayList<WSDLTypeDefinition>();
-	private List<WSDLMessage> messages = new ArrayList<WSDLMessage>();
+	private List<WSDLMessageDefinition> messages = new ArrayList<WSDLMessageDefinition>();
 	private List<WSDLOperation> operations = new ArrayList<WSDLOperation>();
 	
 	private String typeNamespace;
@@ -98,7 +98,7 @@ public class WSDLDefinition {
 			Element messageXML = messagesXML.get(i);
 			String messageName = messageXML.getAttributeValue("name");
 			
-			WSDLMessage newMessage = WSDLMessage.createFromWSDL(this, messageName, targetNS, messageXML);
+			WSDLMessageDefinition newMessage = WSDLMessageDefinition.createFromWSDL(this, messageName, targetNS, messageXML);
 			addWSDLMessage(newMessage);
 		}
 	}
@@ -160,7 +160,7 @@ public class WSDLDefinition {
 		types.add(newType);
 	}
 
-	private void addWSDLMessage(WSDLMessage newMessage) {
+	private void addWSDLMessage(WSDLMessageDefinition newMessage) {
 		DebugLogger.Log("Found message definition: %s", newMessage.toDebugString());					
 		messages.add(newMessage);
 	}
@@ -205,8 +205,8 @@ public class WSDLDefinition {
 		throw new WSDLParsingException("Can't find type: " + typeName);
 	}
 
-	public WSDLMessage getWSDLMessage(String messagename) throws WSDLParsingException {
-		for (WSDLMessage wsdlMessage : messages) {
+	public WSDLMessageDefinition getWSDLMessage(String messagename) throws WSDLParsingException {
+		for (WSDLMessageDefinition wsdlMessage : messages) {
 			if (compareNSValue(messagename, wsdlMessage.Namespace, wsdlMessage.Name)) return wsdlMessage;
 		}
 
@@ -259,10 +259,29 @@ public class WSDLDefinition {
 				WSDLTypeDefinition.generateClassCodeObject(basePackage));
 		DebugLogger.Log("Create file " + "WSDLObject.java");
 		
+		PathHelper.writeTextFile(new File(
+				PathHelper.combinePaths(servicePackagePath, "messages", "WSDLMessage.java")), 
+				WSDLMessageDefinition.generateClassCodeMessage(basePackage));
+		DebugLogger.Log("Create file " + "WSDLMessage.java");
+		
 		for (WSDLTypeDefinition type : types) {
 			String code = type.generateClassCode(basePackage);
 			String classname = type.getClassCodeName();
 			File outFile = new File(PathHelper.combinePaths(servicePackagePath, "types", classname + ".java"));
+			
+			outFile.getParentFile().mkdirs();
+			
+			//TODO REM CHECK
+			if (code != null) {
+				PathHelper.writeTextFile(outFile, code);
+				DebugLogger.Log("Create file " + outFile.getName());
+			}
+		}
+		
+		for (WSDLMessageDefinition message : messages) {
+			String code = message.generateClassCode(basePackage);
+			String classname = message.getClassCodeName();
+			File outFile = new File(PathHelper.combinePaths(servicePackagePath, "messages", classname + ".java"));
 			
 			outFile.getParentFile().mkdirs();
 			

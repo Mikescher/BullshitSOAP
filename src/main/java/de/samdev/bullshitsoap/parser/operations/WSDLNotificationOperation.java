@@ -3,19 +3,19 @@ package de.samdev.bullshitsoap.parser.operations;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
 import de.samdev.bullshitsoap.parser.helper.StringHelper;
-import de.samdev.bullshitsoap.parser.messages.WSDLMessage;
+import de.samdev.bullshitsoap.parser.messagedefinitions.WSDLMessageDefinition;
 import nu.xom.Element;
 
 public class WSDLNotificationOperation extends WSDLOperation {
-	public final WSDLMessage Output;
+	public final WSDLMessageDefinition Output;
 	
-	private WSDLNotificationOperation(String name, String namespace, String documentation, WSDLMessage out) {
+	private WSDLNotificationOperation(String name, String namespace, String documentation, WSDLMessageDefinition out) {
 		super(name, namespace, documentation);
 		
 		Output = out;
 	}
 	
-	private WSDLNotificationOperation(String name, String namespace, WSDLMessage out) {
+	private WSDLNotificationOperation(String name, String namespace, WSDLMessageDefinition out) {
 		super(name, namespace);
 		
 		Output = out;
@@ -24,7 +24,7 @@ public class WSDLNotificationOperation extends WSDLOperation {
 	public static WSDLNotificationOperation createFromWSDL(WSDLDefinition wsdl, String name, String namespace, String documentation, Element root) throws NumberFormatException, WSDLParsingException {
 		Element childOutput = root.getFirstChildElement("output", WSDLDefinition.NS_WSDL);
 
-		WSDLMessage mOutput = wsdl.getWSDLMessage(childOutput.getAttributeValue("message"));
+		WSDLMessageDefinition mOutput = wsdl.getWSDLMessage(childOutput.getAttributeValue("message"));
 		
 		return new WSDLNotificationOperation(name, namespace, documentation, mOutput);
 	}

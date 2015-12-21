@@ -5,11 +5,7 @@ import nu.xom.Attribute;
 import nu.xom.Attribute.Type;
 import nu.xom.Element;
 
-/******************************************************************************
- *                                                                            *
- *            THIS CODE WAS CREATED BY BullshitSOAP - DO NOT CHANGE           *
- *                                                                            *
- ******************************************************************************/
+/**DISCLAIMER**/
 
 public class WSDLObjectInt extends WSDLObject {
 	private final int value;

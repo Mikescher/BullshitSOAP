@@ -3,21 +3,21 @@ package de.samdev.bullshitsoap.parser.operations;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
 import de.samdev.bullshitsoap.parser.helper.StringHelper;
-import de.samdev.bullshitsoap.parser.messages.WSDLMessage;
+import de.samdev.bullshitsoap.parser.messagedefinitions.WSDLMessageDefinition;
 import nu.xom.Element;
 
 public class WSDLRequestResponseOperation extends WSDLOperation {
-	public final WSDLMessage Input;
-	public final WSDLMessage Output;
+	public final WSDLMessageDefinition Input;
+	public final WSDLMessageDefinition Output;
 	
-	private WSDLRequestResponseOperation(String name, String namespace, String documentation, WSDLMessage in, WSDLMessage out) {
+	private WSDLRequestResponseOperation(String name, String namespace, String documentation, WSDLMessageDefinition in, WSDLMessageDefinition out) {
 		super(name, namespace, documentation);
 		
 		Input = in;
 		Output = out;
 	}
 	
-	private WSDLRequestResponseOperation(String name, String namespace, WSDLMessage in, WSDLMessage out) {
+	private WSDLRequestResponseOperation(String name, String namespace, WSDLMessageDefinition in, WSDLMessageDefinition out) {
 		super(name, namespace);
 		
 		Input = in;
@@ -28,8 +28,8 @@ public class WSDLRequestResponseOperation extends WSDLOperation {
 		Element childInput = root.getFirstChildElement("input", WSDLDefinition.NS_WSDL);
 		Element childOutput = root.getFirstChildElement("output", WSDLDefinition.NS_WSDL);
 
-		WSDLMessage mInput = wsdl.getWSDLMessage(childInput.getAttributeValue("message"));
-		WSDLMessage mOutput = wsdl.getWSDLMessage(childOutput.getAttributeValue("message"));
+		WSDLMessageDefinition mInput = wsdl.getWSDLMessage(childInput.getAttributeValue("message"));
+		WSDLMessageDefinition mOutput = wsdl.getWSDLMessage(childOutput.getAttributeValue("message"));
 		
 		return new WSDLRequestResponseOperation(name, namespace, documentation, mInput, mOutput);
 	}
