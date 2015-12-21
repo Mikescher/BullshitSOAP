@@ -12,18 +12,18 @@ import de.samdev.bullshitsoap.DebugLogger;
 import de.samdev.bullshitsoap.parser.helper.PathHelper;
 import de.samdev.bullshitsoap.parser.messages.WSDLMessage;
 import de.samdev.bullshitsoap.parser.operations.WSDLOperation;
-import de.samdev.bullshitsoap.parser.types.WSDLBooleanTypeDefinition;
-import de.samdev.bullshitsoap.parser.types.WSDLByteTypeDefinition;
-import de.samdev.bullshitsoap.parser.types.WSDLComplexTypeDefinition;
-import de.samdev.bullshitsoap.parser.types.WSDLDateTimeTypeDefinition;
-import de.samdev.bullshitsoap.parser.types.WSDLDateTypeDefinition;
-import de.samdev.bullshitsoap.parser.types.WSDLDoubleTypeDefinition;
-import de.samdev.bullshitsoap.parser.types.WSDLFloatTypeDefinition;
-import de.samdev.bullshitsoap.parser.types.WSDLIntegerTypeDefinition;
-import de.samdev.bullshitsoap.parser.types.WSDLLongTypeDefinition;
-import de.samdev.bullshitsoap.parser.types.WSDLSimpleTypeDefinition;
-import de.samdev.bullshitsoap.parser.types.WSDLStringTypeDefinition;
-import de.samdev.bullshitsoap.parser.types.WSDLTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLBooleanTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLByteTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLComplexTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLDateTimeTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLDateTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLDoubleTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLFloatTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLIntegerTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLLongTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLSimpleTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLStringTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLTypeDefinition;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -233,8 +233,7 @@ public class WSDLDefinition {
 			code = code.replace("%NS_SERVICETYPES%", typeNamespace + "encodedTypes");
 		else
 			code = code.replace("%NS_SERVICETYPES%", typeNamespace + "/encodedTypes");
-			
-		
+
 		return WSDLCodeGenerationHelper.RefactorPackageDefinitions(packageBase, code);
 	}
 	

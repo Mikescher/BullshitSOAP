@@ -9,10 +9,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-/******************************************************************************
- *                                                                            *
- *            THIS CODE WAS CREATED BY BullshitSOAP - DO NOT CHANGE           *
- *                                                                            *
+/****************************************************************************** 
+ *                                                                            * 
+ *           THIS CODE WAS CREATED BY BULLSHITSOAP - DO NOT CHANGE            * 
+ *                                                                            * 
  ******************************************************************************/
 
 public class WSDLInvoker {

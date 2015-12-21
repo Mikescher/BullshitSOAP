@@ -1,18 +1,19 @@
-package de.samdev.bullshitsoap.parser.types;
+package de.samdev.bullshitsoap.parser.typedefinitions;
 
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
+import de.samdev.bullshitsoap.parser.helper.PathHelper;
 
-public class WSDLLongTypeDefinition extends WSDLPrimitiveTypeDefinition {
+public class WSDLByteTypeDefinition extends WSDLPrimitiveTypeDefinition {
 
-	public WSDLLongTypeDefinition() {
-		super("long", WSDLDefinition.NS_XSD);
+	public WSDLByteTypeDefinition() {
+		super("byte", WSDLDefinition.NS_XSD);
 	}
 
 	@Override
 	public Object parseFromString(String value) throws WSDLParsingException {
 		try {
-			return Long.valueOf(value);
+			return Byte.valueOf(value);
 		} catch (NumberFormatException e) {
 			throw new WSDLParsingException(e);
 		}
@@ -20,7 +21,6 @@ public class WSDLLongTypeDefinition extends WSDLPrimitiveTypeDefinition {
 
 	@Override
 	protected String generateClassCodeInternal() {
-		// TODO IMPLEMENT GENERATE CLASS CODE
-		return null;
+		return PathHelper.getResourceFile("/WSDLObjectByte.java-template");
 	}
 }

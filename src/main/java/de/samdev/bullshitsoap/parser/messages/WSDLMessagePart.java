@@ -1,7 +1,7 @@
 package de.samdev.bullshitsoap.parser.messages;
 
 import de.samdev.bullshitsoap.parser.IDebugFormattable;
-import de.samdev.bullshitsoap.parser.types.WSDLTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLTypeDefinition;
 
 public class WSDLMessagePart implements IDebugFormattable {
 	public final String Name;

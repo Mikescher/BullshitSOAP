@@ -1,4 +1,4 @@
-package de.samdev.bullshitsoap.parser.types;
+package de.samdev.bullshitsoap.parser.typedefinitions;
 
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;

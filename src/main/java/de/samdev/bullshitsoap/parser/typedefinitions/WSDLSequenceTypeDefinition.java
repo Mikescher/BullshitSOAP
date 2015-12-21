@@ -1,4 +1,4 @@
-package de.samdev.bullshitsoap.parser.types;
+package de.samdev.bullshitsoap.parser.typedefinitions;
 
 import java.util.ArrayList;
 import java.util.List;

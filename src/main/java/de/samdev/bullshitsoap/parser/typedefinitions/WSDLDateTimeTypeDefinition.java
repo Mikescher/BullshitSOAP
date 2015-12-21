@@ -1,4 +1,4 @@
-package de.samdev.bullshitsoap.parser.types;
+package de.samdev.bullshitsoap.parser.typedefinitions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -6,6 +6,7 @@ import java.util.TimeZone;
 
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
+import de.samdev.bullshitsoap.parser.helper.PathHelper;
 
 public class WSDLDateTimeTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	private final static SimpleDateFormat[] WSDL_DATEFORMAT = new SimpleDateFormat[]
@@ -38,8 +39,12 @@ public class WSDLDateTimeTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	}
 
 	@Override
+	public String getClassCodeName() {
+		return "WSDLObjectDateTime";
+	}
+
+	@Override
 	protected String generateClassCodeInternal() {
-		// TODO IMPLEMENT GENERATE CLASS CODE
-		return null;
+		return PathHelper.getResourceFile("/WSDLObjectDateTime.java-template");
 	}
 }

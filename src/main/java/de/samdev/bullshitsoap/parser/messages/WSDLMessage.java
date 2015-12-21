@@ -7,7 +7,7 @@ import de.samdev.bullshitsoap.parser.IDebugFormattable;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
 import de.samdev.bullshitsoap.parser.helper.StringHelper;
-import de.samdev.bullshitsoap.parser.types.WSDLTypeDefinition;
+import de.samdev.bullshitsoap.parser.typedefinitions.WSDLTypeDefinition;
 import nu.xom.Element;
 import nu.xom.Elements;
 

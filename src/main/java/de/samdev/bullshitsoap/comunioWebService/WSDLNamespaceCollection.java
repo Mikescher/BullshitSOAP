@@ -1,9 +1,9 @@
 package de.samdev.bullshitsoap.comunioWebService;
 
-/******************************************************************************
- *                                                                            *
- *            THIS CODE WAS CREATED BY BullshitSOAP - DO NOT CHANGE           *
- *                                                                            *
+/****************************************************************************** 
+ *                                                                            * 
+ *           THIS CODE WAS CREATED BY BULLSHITSOAP - DO NOT CHANGE            * 
+ *                                                                            * 
  ******************************************************************************/
 
 public class WSDLNamespaceCollection {

@@ -1,4 +1,4 @@
-package de.samdev.bullshitsoap.parser.types;
+package de.samdev.bullshitsoap.parser.typedefinitions;
 
 import de.samdev.bullshitsoap.parser.IDebugFormattable;
 import de.samdev.bullshitsoap.parser.WSDLCodeGenerationHelper;
@@ -26,7 +26,7 @@ public abstract class WSDLTypeDefinition implements IDebugFormattable {
 	protected abstract String generateClassCodeInternal();
 	
 	public String getClassCodeName() {
-		return "WSDLObject" + Character.toUpperCase(Name.charAt(0)) + Name.substring(1);
+		return "WSDLObject" + Character.toUpperCase(Name.charAt(0)) + Name.substring(1).toLowerCase();
 	}
 	
 	public String generateClassCode(String packageBase) {

@@ -1,7 +1,8 @@
-package de.samdev.bullshitsoap.parser.types;
+package de.samdev.bullshitsoap.parser.typedefinitions;
 
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
+import de.samdev.bullshitsoap.parser.helper.PathHelper;
 
 public class WSDLBooleanTypeDefinition extends WSDLPrimitiveTypeDefinition {
 
@@ -19,7 +20,6 @@ public class WSDLBooleanTypeDefinition extends WSDLPrimitiveTypeDefinition {
 
 	@Override
 	protected String generateClassCodeInternal() {
-		// TODO IMPLEMENT GENERATE CLASS CODE
-		return null;
+		return PathHelper.getResourceFile("/WSDLObjectBoolean.java-template");
 	}
 }

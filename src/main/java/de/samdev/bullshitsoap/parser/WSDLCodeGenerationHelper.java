@@ -16,6 +16,18 @@ public class WSDLCodeGenerationHelper {
 			}
 		}
 		
-		return StringHelper.join("\r\n", lines);
+		code = StringHelper.join("\r\n", lines);
+		
+		StringBuilder buildr = new StringBuilder();
+		
+		buildr.append("/****************************************************************************** " + "\r\n");
+		buildr.append(" *                                                                            * " + "\r\n");
+		buildr.append(" *           THIS CODE WAS CREATED BY BULLSHITSOAP - DO NOT CHANGE            * " + "\r\n");
+		buildr.append(" *                                                                            * " + "\r\n");
+		buildr.append(" ******************************************************************************/");
+		
+		code = code.replace("/**DISCLAIMER**/", buildr.toString());
+		
+		return code;
 	}
 }

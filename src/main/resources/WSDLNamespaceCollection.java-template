@@ -1,10 +1,6 @@
 package de.samdev.bullshitsoap.templates;
 
-/******************************************************************************
- *                                                                            *
- *            THIS CODE WAS CREATED BY BullshitSOAP - DO NOT CHANGE           *
- *                                                                            *
- ******************************************************************************/
+/**DISCLAIMER**/
 
 public class WSDLNamespaceCollection {
 	public final static String NAMESPACE_PREFIX_SOAP_ENVELOPE = "soap";
