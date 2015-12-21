@@ -1,6 +1,8 @@
 package de.samdev.bullshitsoap.parser.types;
 
 import de.samdev.bullshitsoap.parser.IDebugFormattable;
+import de.samdev.bullshitsoap.parser.WSDLCodeGenerationHelper;
+import de.samdev.bullshitsoap.parser.helper.PathHelper;
 
 public abstract class WSDLTypeDefinition implements IDebugFormattable {
 	public final String Namespace;
@@ -21,9 +23,21 @@ public abstract class WSDLTypeDefinition implements IDebugFormattable {
 	public abstract String GetInternalDebugRepresentation();
 	public abstract String GetInternalDebugName();
 
-	public abstract String generateClassCode();
+	protected abstract String generateClassCodeInternal();
 	
 	public String getClassCodeName() {
-		return "WSDLType" + Name;
+		return "WSDLObject" + Character.toUpperCase(Name.charAt(0)) + Name.substring(1);
+	}
+	
+	public String generateClassCode(String packageBase) {
+		String code = generateClassCodeInternal();
+		
+		if (code == null) return null;//TODO REMOVE ME
+	
+		return WSDLCodeGenerationHelper.RefactorPackageDefinitions(packageBase, code);
+	}
+	
+	public static String generateClassCodeObject(String packageBase) {
+		return WSDLCodeGenerationHelper.RefactorPackageDefinitions(packageBase, PathHelper.getResourceFile("/WSDLObject.java-template"));
 	}
 }

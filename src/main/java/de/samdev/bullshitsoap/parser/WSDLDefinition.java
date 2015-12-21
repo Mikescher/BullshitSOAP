@@ -2,6 +2,7 @@ package de.samdev.bullshitsoap.parser;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +43,8 @@ public class WSDLDefinition {
 	private List<WSDLTypeDefinition> types = new ArrayList<WSDLTypeDefinition>();
 	private List<WSDLMessage> messages = new ArrayList<WSDLMessage>();
 	private List<WSDLOperation> operations = new ArrayList<WSDLOperation>();
+	
+	private String typeNamespace;
 	
 	public WSDLDefinition(String xml) throws WSDLParsingException  {
 		super();
@@ -87,7 +90,6 @@ public class WSDLDefinition {
 			WSDLOperation newOperation = WSDLOperation.createFromWSDL(this, operationName, targetNS, operationXML);
 			addWSDLOperation(newOperation);
 		}
-		
 	}
 
 	private void parseMessages(Element root, String targetNS) throws NumberFormatException, WSDLParsingException {
@@ -133,6 +135,8 @@ public class WSDLDefinition {
 	private void parseTypes(Element root) throws WSDLParsingException, NumberFormatException {
 		Element schema = root.getFirstChildElement("schema", NS_XSD);
 		String targetNS = schema.getAttributeValue("targetNamespace");
+		
+		typeNamespace = targetNS;
 		
 		Elements simpleTypes = schema.getChildElements("simpleType", NS_XSD);
 		for (int i = 0; i < simpleTypes.size(); i++) {
@@ -216,24 +220,58 @@ public class WSDLDefinition {
 	public String getServiceName() {
 		return serviceName;
 	}
+
+	private String generateClassCodeInvoker(String packageBase) {
+		return WSDLCodeGenerationHelper.RefactorPackageDefinitions(packageBase, PathHelper.getResourceFile("/WSDLInvoker.java-template"));
+	}
+
+	private String generateClassCodeNamespaceCollection(String packageBase) {
+		String code = PathHelper.getResourceFile("/WSDLNamespaceCollection.java-template");
+
+		code = code.replace("%NS_SERVICE%", typeNamespace);
+		if (typeNamespace.endsWith("/"))
+			code = code.replace("%NS_SERVICETYPES%", typeNamespace + "encodedTypes");
+		else
+			code = code.replace("%NS_SERVICETYPES%", typeNamespace + "/encodedTypes");
+			
+		
+		return WSDLCodeGenerationHelper.RefactorPackageDefinitions(packageBase, code);
+	}
 	
 	public void createAPIClasses(String basePath, String basePackage) {
-		basePackage = basePackage + "." + serviceName;
+		basePackage = basePackage + "." + Character.toLowerCase(serviceName.charAt(0)) + serviceName.substring(1);
 		
-		String servicePackagePath = PathHelper.combinePaths(basePath, basePackage.replaceAll("\\.", "\\"));
+		String servicePackagePath = PathHelper.combinePaths(basePath, basePackage.replaceAll("\\.", "\\\\"));
 		
-		{
-			
-		}
+		new File(servicePackagePath).mkdirs();
+		
+		PathHelper.writeTextFile(new File(
+				PathHelper.combinePaths(servicePackagePath, "WSDLInvoker.java")), 
+				generateClassCodeInvoker(basePackage));
+		DebugLogger.Log("Create file " + "WSDLInvoker.java");
+		
+		PathHelper.writeTextFile(new File(
+				PathHelper.combinePaths(servicePackagePath, "WSDLNamespaceCollection.java")), 
+				generateClassCodeNamespaceCollection(basePackage));
+		DebugLogger.Log("Create file " + "WSDLNamespaceCollection.java");
+		
+		PathHelper.writeTextFile(new File(
+				PathHelper.combinePaths(servicePackagePath, "types", "WSDLObject.java")), 
+				WSDLTypeDefinition.generateClassCodeObject(basePackage));
+		DebugLogger.Log("Create file " + "WSDLObject.java");
 		
 		for (WSDLTypeDefinition type : types) {
-			String code = type.generateClassCode();
+			String code = type.generateClassCode(basePackage);
 			String classname = type.getClassCodeName();
 			File outFile = new File(PathHelper.combinePaths(servicePackagePath, "types", classname + ".java"));
 			
-			outFile.mkdir();
+			outFile.getParentFile().mkdirs();
 			
-			PathHelper.writeTextFile(outFile, code);
+			//TODO REM CHECK
+			if (code != null) {
+				PathHelper.writeTextFile(outFile, code);
+				DebugLogger.Log("Create file " + outFile.getName());
+			}
 		}
 	}
 }

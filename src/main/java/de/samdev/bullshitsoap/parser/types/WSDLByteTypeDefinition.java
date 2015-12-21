@@ -19,7 +19,7 @@ public class WSDLByteTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	}
 
 	@Override
-	public String generateClassCode() {
+	protected String generateClassCodeInternal() {
 		// TODO IMPLEMENT GENERATE CLASS CODE
 		return null;
 	}

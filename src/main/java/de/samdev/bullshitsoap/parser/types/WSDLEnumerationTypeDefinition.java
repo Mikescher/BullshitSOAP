@@ -45,7 +45,7 @@ public class WSDLEnumerationTypeDefinition extends WSDLSimpleTypeDefinition {
 	}
 
 	@Override
-	public String generateClassCode() {
+	protected String generateClassCodeInternal() {
 		// TODO IMPLEMENT GENERATE CLASS CODE
 		return null;
 	}

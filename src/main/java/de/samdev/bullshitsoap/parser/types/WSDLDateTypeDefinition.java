@@ -12,8 +12,8 @@ public class WSDLDateTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	{
 		createSimpleDateFormat("yyyy-MM-dd'Z'"),
 		createSimpleDateFormat("-yyyy-MM-dd'Z'"),
-		createSimpleDateFormat("yyyy-MM-ddX"),
-		createSimpleDateFormat("-yyyy-MM-ddX"),
+		createSimpleDateFormat("yyyy-MM-ddZ"),
+		createSimpleDateFormat("-yyyy-MM-ddZ"),
 	};
 		
 	private static SimpleDateFormat createSimpleDateFormat(String fmt) {
@@ -38,7 +38,7 @@ public class WSDLDateTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	}
 
 	@Override
-	public String generateClassCode() {
+	protected String generateClassCodeInternal() {
 		// TODO IMPLEMENT GENERATE CLASS CODE
 		return null;
 	}

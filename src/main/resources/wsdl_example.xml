@@ -1,0 +1,2150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Comunio Soapservice v1.26 -->
+<definitions name="ComunioWebService" targetNamespace="http://rpc.comunio.de/soapservice.php?wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://rpc.comunio.de/soapservice.php?wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <types>
+        <xsd:schema targetNamespace="http://rpc.comunio.de/soapservice.php?wsdl">
+            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+            <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+            <xsd:simpleType name="Active_starter">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="false"/>
+                    <xsd:enumeration value="true"/>
+                    <xsd:enumeration value="substitute"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="Position">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="keeper"/>
+                    <xsd:enumeration value="defender"/>
+                    <xsd:enumeration value="midfielder"/>
+                    <xsd:enumeration value="striker"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="news_user_type">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ALL"/>
+                    <xsd:enumeration value="TMP_PLUS_USER"/>
+                    <xsd:enumeration value="USER"/>
+                    <xsd:enumeration value="PLUS_USER"/>
+                    <xsd:enumeration value="PRO_USER"/>
+                    <xsd:enumeration value="PLUS_PRO_USER"/>
+                    <xsd:enumeration value="BASIC_PLUS_USER"/>
+                    <xsd:enumeration value="UNPAID_PLUS_USER"/>
+                    <xsd:enumeration value="UNPAID_PRO_USER"/>
+                    <xsd:enumeration value="UNPAID_USER"/>
+                    <xsd:enumeration value="EXPIRING_PLUS_USER"/>
+                    <xsd:enumeration value="EXPIRING_PRO_USER"/>
+                    <xsd:enumeration value="EXPIRING_USER"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="news_language">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ANY"/>
+                    <xsd:enumeration value="en_US"/>
+                    <xsd:enumeration value="de_DE"/>
+                    <xsd:enumeration value="es_ES"/>
+                    <xsd:enumeration value="fr_FR"/>
+                    <xsd:enumeration value="tr_TR"/>
+                    <xsd:enumeration value="it_IT"/>
+                    <xsd:enumeration value="pt_PT"/>
+                    <xsd:enumeration value="pt_BR"/>
+                    <xsd:enumeration value="el_GR"/>
+                    <xsd:enumeration value="nl_NL"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="PlayerPointsItem">
+                <xsd:all>
+                    <xsd:element name="playerid" type="xsd:int"/>
+                    <xsd:element name="points" type="xsd:int"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="UserItem">
+                <xsd:all>
+                    <xsd:element name="sex" type="xsd:string"/>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="firstname" type="xsd:string"/>
+                    <xsd:element name="email" type="xsd:string"/>
+                    <xsd:element name="address" type="xsd:string"/>
+                    <xsd:element name="zip" type="xsd:string"/>
+                    <xsd:element name="city" type="xsd:string"/>
+                    <xsd:element name="login" type="xsd:string"/>
+                    <xsd:element name="dob" type="xsd:date"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="TradableMatchStats">
+                <xsd:all>
+                    <xsd:element name="yellow" type="xsd:int"/>
+                    <xsd:element name="yellowred" type="xsd:int"/>
+                    <xsd:element name="red" type="xsd:int"/>
+                    <xsd:element name="m_in" type="xsd:int"/>
+                    <xsd:element name="m_out" type="xsd:int"/>
+                    <xsd:element name="pcount" type="xsd:int"/>
+                    <xsd:element name="psum" type="xsd:int"/>
+                    <xsd:element name="fgoals" type="xsd:int"/>
+                    <xsd:element name="rgoals" type="xsd:int"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="PlayerStateItem">
+                <xsd:all>
+                    <xsd:element name="playerid" type="xsd:int"/>
+                    <xsd:element name="state" type="xsd:boolean"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="NewsItem">
+                <xsd:all>
+                    <xsd:element name="date" type="xsd:date"/>
+                    <xsd:element name="author" type="xsd:string"/>
+                    <xsd:element name="subject" type="xsd:string"/>
+                    <xsd:element name="message" type="xsd:string"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="TransferItem">
+                <xsd:all>
+                    <xsd:element name="playerid" type="xsd:int"/>
+                    <xsd:element name="userid_from" type="xsd:int"/>
+                    <xsd:element name="userid_to" type="xsd:int"/>
+                    <xsd:element name="price" type="xsd:string"/>
+                    <xsd:element name="date" type="xsd:date"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="GamedayItem">
+                <xsd:all>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="gameday" type="xsd:int"/>
+                    <xsd:element name="title" type="xsd:string"/>
+                    <xsd:element name="datetime" type="xsd:date"/>
+                    <xsd:element name="shifted" type="xsd:boolean"/>                    
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="Club">
+                <xsd:all>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="url" type="xsd:string"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="Player">
+                <xsd:all>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="points" type="xsd:int"/>
+                    <xsd:element name="clubid" type="xsd:int"/>
+                    <xsd:element name="quote" type="xsd:int"/>
+                    <xsd:element name="status" type="xsd:string"/>
+                    <xsd:element name="status_info" type="xsd:string"/>
+                    <xsd:element name="position" type="tns:Position"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="PlayerInfo">
+                <xsd:all>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="points" type="xsd:int"/>
+                    <xsd:element name="clubid" type="xsd:int"/>
+                    <xsd:element name="quote" type="xsd:int"/>
+                    <xsd:element name="status" type="xsd:string"/>
+                    <xsd:element name="purchase_price" type="xsd:int"/>
+                    <xsd:element name="purchase_date" type="xsd:date"/>
+                    <xsd:element name="status_info" type="xsd:string"/>
+                    <xsd:element name="position" type="tns:Position"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="User">
+                <xsd:all>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="login" type="xsd:string"/>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="points" type="xsd:int"/>
+                    <xsd:element name="communityid" type="xsd:int"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="PlayerExchangemarket">
+                <xsd:all>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="points" type="xsd:int"/>
+                    <xsd:element name="clubid" type="xsd:int"/>
+                    <xsd:element name="quote" type="xsd:int"/>
+                    <xsd:element name="recommendedprice" type="xsd:int"/>
+                    <xsd:element name="status" type="xsd:string"/>
+                    <xsd:element name="status_info" type="xsd:string"/>
+                    <xsd:element name="position" type="tns:Position"/>
+                    <xsd:element name="placed" type="xsd:date"/>
+                    <xsd:element name="ownerid" type="xsd:int"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="Playerlineup">
+                <xsd:all>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="points" type="xsd:int"/>
+                    <xsd:element name="clubid" type="xsd:int"/>
+                    <xsd:element name="position" type="tns:Position"/>
+                    <xsd:element name="active_starter" type="tns:Active_starter"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="Playerscore">
+                <xsd:all>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="position" type="tns:Position"/>
+                    <xsd:element name="points" type="xsd:int"/>
+                    <xsd:element name="quote" type="xsd:int"/>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfUserid">
+                <xsd:sequence>
+                    <xsd:element name="Userid" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+						<xsd:complexType name="ArrayOfInteger">
+                <xsd:sequence>
+                    <xsd:element name="Integer" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+						<xsd:complexType name="ArrayOfPlayerid">
+                <xsd:sequence>
+                    <xsd:element name="Playerid" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+						<xsd:complexType name="ArrayOfTitleid">
+                <xsd:sequence>
+                    <xsd:element name="Titleid" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+						<xsd:complexType name="ArrayOfLogin">
+                <xsd:sequence>
+                    <xsd:element name="Login" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfPlayerPoints">
+                <xsd:sequence>
+                    <xsd:element name="PlayerPointsItem" type="tns:PlayerPointsItem" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfPlayerState">
+                <xsd:sequence>
+                    <xsd:element name="PlayerStateItem" type="tns:PlayerStateItem" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfNewsItem">
+                <xsd:sequence>
+                    <xsd:element name="NewsItem" type="tns:NewsItem" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfPlayer">
+                <xsd:sequence>
+                    <xsd:element name="Player" type="tns:Player" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfUser">
+                <xsd:sequence>
+                    <xsd:element name="User" type="tns:User" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfPlayerExchangemarket">
+                <xsd:sequence>
+                    <xsd:element name="PlayerExchangemarket" type="tns:PlayerExchangemarket" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfPlayerlineup">
+                <xsd:sequence>
+                    <xsd:element name="Playerlineup" type="tns:Playerlineup" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfArrayOfPlayerlineup">
+                <xsd:sequence>
+                    <xsd:element name="userid" type="xsd:int"/>
+                    <xsd:element name="ArrayOfPlayerlineup" type="tns:ArrayOfPlayerlineup" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfPlayerscore">
+                <xsd:sequence>
+                    <xsd:element name="Playerscore" type="tns:Playerscore" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfPlayerInfo">
+                <xsd:sequence>
+                    <xsd:element name="PlayerInfo" type="tns:PlayerInfo" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfClub">
+                <xsd:sequence>
+                    <xsd:element name="Club" type="tns:Club" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfTransferItem">
+                <xsd:sequence>
+                    <xsd:element name="TransferItem" type="tns:TransferItem" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfGamedayItem">
+                <xsd:sequence>
+                    <xsd:element name="GamedayItem" type="tns:GamedayItem" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>            
+        </xsd:schema>
+    </types>
+		
+    <message name="checkPermissionsRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="checkPermissionsResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="checkmultiPermissionsRequest">
+        <part name="arr_userid" type="tns:ArrayOfUserid"/>
+    </message>
+    <message name="checkmultiPermissionsResponse">
+        <part name="return" type="tns:ArrayOfPlayerState"/>
+    </message>
+    <message name="checkcommunitypermissionsRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="checkcommunitypermissionsResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="getsoapservicereleaseRequest"/>
+    <message name="getsoapservicereleaseResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getuseridRequest">
+        <part name="login" type="xsd:string"/>
+    </message>
+    <message name="getuseridResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getloginRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getloginResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+    <message name="getUserInformationRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="md5password" type="xsd:string"/>
+    </message>
+    <message name="getUserInformationResponse">
+        <part name="return" type="tns:UserItem"/>
+    </message>
+    <message name="getusersfirstnameRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getusersfirstnameResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+    <message name="getusersnameRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getusersnameResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+    <message name="getuserspointsRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getuserspointsResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getmultiuserspointsRequest">
+        <part name="arr_userid" type="tns:ArrayOfUserid"/>
+    </message>
+    <message name="getmultiuserspointsResponse">
+        <part name="return" type="tns:ArrayOfPlayerPoints"/>
+    </message>
+    <message name="getusersgamdaybudgetstateRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getusersgamdaybudgetstateResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="getmultiusersgamdaybudgetstateRequest">
+        <part name="arr_userid" type="tns:ArrayOfUserid"/>
+    </message>
+    <message name="getmultiusersgamdaybudgetstateResponse">
+        <part name="return" type="tns:ArrayOfPlayerState"/>
+    </message>
+    <message name="getusersdescriptionRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getusersdescriptionResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+    <message name="getteamvalueRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getteamvalueResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getteamsizeRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getteamsizeResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getcommunityidRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getcommunityidResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getcommunitynameRequest">
+        <part name="communityid" type="xsd:int"/>
+    </message>
+    <message name="getcommunitynameResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+    <message name="getcommunitynamebyuseridRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getcommunitynamebyuseridResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+    <message name="getuserloginsRequest">
+        <part name="communityid" type="xsd:int"/>
+    </message>
+    <message name="getuserloginsResponse">
+        <part name="return" type="tns:ArrayOfLogin"/>
+    </message>
+    <message name="getuseridsRequest">
+        <part name="communityid" type="xsd:int"/>
+    </message>
+    <message name="getuseridsResponse">
+        <part name="return" type="tns:ArrayOfUserid"/>
+    </message>
+    <message name="getgamedaysRequest"/>        
+    <message name="getgamedaysResponse">
+        <part name="return" type="tns:ArrayOfGamedayItem"/>
+    </message>
+    <message name="getcommunityadminsRequest">
+        <part name="communityid" type="xsd:int"/>
+    </message>
+    <message name="getcommunityadminsResponse">
+        <part name="return" type="tns:ArrayOfUserid"/>
+    </message>
+    <message name="getcommunitymarketRequest">
+        <part name="communityid" type="xsd:int"/>
+    </message>
+    <message name="getcommunitymarketResponse">
+        <part name="return" type="tns:ArrayOfPlayerExchangemarket"/>
+    </message>
+    <message name="player_getcommunitymarketRequest"/>
+    <message name="player_getcommunitymarketResponse">
+        <part name="return" type="tns:ArrayOfPlayerExchangemarket"/>
+    </message>
+    <message name="getplayerbyidRequest">
+        <part name="playerid" type="xsd:int"/>
+    </message>
+    <message name="getplayerbyidResponse">
+        <part name="return" type="tns:Player"/>
+    </message>
+    <message name="getusergamedaypointsRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getusergamedaypointsResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getusergamedaypointsidRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="gameday_id" type="xsd:int"/>
+    </message>
+    <message name="getusergamedaypointsidResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getmultiusergamedaypointsRequest">
+        <part name="arr_userid" type="tns:ArrayOfUserid"/>
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getmultiusergamedaypointsResponse">
+        <part name="return" type="tns:ArrayOfPlayerPoints"/>
+    </message>
+    <message name="getmultiusergamedaypointsidRequest">
+        <part name="arr_userid" type="tns:ArrayOfUserid"/>
+        <part name="gameday_id" type="xsd:int"/>
+    </message>
+    <message name="getmultiusergamedaypointsidResponse">
+        <part name="return" type="tns:ArrayOfPlayerPoints"/>
+    </message>
+    <message name="getlatestgamedayRequest"/>
+    <message name="getlatestgamedayResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getlatestgamedayidRequest"/>
+    <message name="getlatestgamedayidResponse">
+        <part name="return" type="xsd:int"/>
+    </message>    
+    <message name="getcomputernewsRequest">
+        <part name="communityid" type="xsd:int"/>
+        <part name="days" type="xsd:int"/>
+        <part name="items" type="xsd:int"/>
+    </message>
+    <message name="getcomputernewsResponse">
+        <part name="return" type="tns:ArrayOfNewsItem"/>
+    </message>
+    <message name="communityexistsRequest">
+        <part name="communityid" type="xsd:int"/>
+    </message>
+    <message name="communityexistsResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="getclubsRequest"/>
+    <message name="getclubsResponse">
+        <part name="return" type="tns:ArrayOfClub"/>
+    </message>
+    <message name="getplayersbyclubidRequest">
+        <part name="clubid" type="xsd:int"/>
+    </message>
+    <message name="getplayersbyclubidResponse">
+        <part name="return" type="tns:ArrayOfPlayer"/>
+    </message>
+    <message name="getplayersbyclubidinclretiredRequest">
+        <part name="clubid" type="xsd:int"/>
+    </message>
+    <message name="getplayersbyclubidinclretiredResponse">
+        <part name="return" type="tns:ArrayOfPlayer"/>
+    </message>
+    <message name="getplayerssportaldeidRequest">
+        <part name="playerid" type="xsd:int"/>
+    </message>
+    <message name="getplayerssportaldeidResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getplayerbysportaldeidRequest">
+        <part name="sportaldeid" type="xsd:int"/>
+    </message>
+    <message name="getplayerbysportaldeidResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getplayersspoxidRequest">
+        <part name="playerid" type="xsd:int"/>
+    </message>
+    <message name="getplayersspoxidResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getplayerbyspoxidRequest">
+        <part name="spoxid" type="xsd:int"/>
+    </message>
+    <message name="getplayerbyspoxidResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getplayersbyuseridRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getplayersbyuseridResponse">
+        <part name="return" type="tns:ArrayOfPlayer"/>
+    </message>
+    <message name="getplayersinfobyuseridRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getplayersinfobyuseridResponse">
+        <part name="return" type="tns:ArrayOfPlayerInfo"/>
+    </message>
+    <message name="getpartnerrankingRequest"/>
+    <message name="getpartnerrankingResponse">
+        <part name="return" type="tns:ArrayOfUser"/>
+    </message>
+    <message name="getlastpartnerrankingRequest"/>
+    <message name="getlastpartnerrankingResponse">
+        <part name="return" type="tns:ArrayOfUser"/>
+    </message>
+    <message name="getservicerankingRequest"/>
+    <message name="getservicerankingResponse">
+        <part name="return" type="tns:ArrayOfUser"/>
+    </message>
+    <message name="signupserviceRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="signupserviceResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="getserviceexpirationdateRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getserviceexpirationdateResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+    <message name="getregisteredusersRequest"/>
+    <message name="getregisteredusersResponse">
+        <part name="return" type="tns:ArrayOfUserid"/>
+    </message>
+    <message name="postcommunitynewsRequest">
+        <part name="communityid" type="xsd:int"/>
+        <part name="headline" type="xsd:string"/>
+        <part name="content" type="xsd:string"/>
+    </message>
+    <message name="postcommunitynewsResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="player_postcommunitynewsRequest">
+        <part name="headline" type="xsd:string"/>
+        <part name="content" type="xsd:string"/>
+    </message>
+    <message name="player_postcommunitynewsResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="postusernewsRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="headline" type="xsd:string"/>
+        <part name="content" type="xsd:string"/>
+    </message>
+    <message name="postusernewsResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="player_postusernewsRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="headline" type="xsd:string"/>
+        <part name="content" type="xsd:string"/>
+    </message>
+    <message name="player_postusernewsResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="postmultiusernewsRequest">
+        <part name="arr_userid" type="tns:ArrayOfUserid"/>
+        <part name="headline" type="xsd:string"/>
+        <part name="content" type="xsd:string"/>
+    </message>
+    <message name="postmultiusernewsResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="player_postmultiusernewsRequest">
+        <part name="arr_userid" type="tns:ArrayOfUserid"/>
+        <part name="headline" type="xsd:string"/>
+        <part name="content" type="xsd:string"/>
+    </message>
+    <message name="player_postmultiusernewsResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="postadminnewsRequest">
+        <part name="userType" type="xsd:string"/>
+        <part name="language" type="xsd:string"/>
+        <part name="headline" type="xsd:string"/>
+        <part name="content" type="xsd:string"/>
+    </message>
+    <message name="postadminnewsResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>   
+    
+    <message name="getcurrentbudgetRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getcurrentbudgetResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="setuserbonusRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="amount" type="xsd:int"/>
+        <part name="reason" type="xsd:string"/>
+    </message>
+    <message name="setuserbonusResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="player_setuserbonusRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="amount" type="xsd:int"/>
+        <part name="reason" type="xsd:string"/>
+    </message>
+    <message name="player_setuserbonusResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="getcommunitybonusRequest">
+        <part name="communityid" type="xsd:int"/>
+    </message>
+    <message name="getcommunitybonusResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getuserbonusRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getuserbonusResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getuserpenaltyRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getuserpenaltyResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="setusertitleRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="titleid" type="xsd:int"/>
+    </message>
+    <message name="setusertitleResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="player_setusertitleRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="titleid" type="xsd:int"/>
+    </message>
+    <message name="player_setusertitleResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="deleteusertitleRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="titleid" type="xsd:int"/>
+    </message>
+    <message name="deleteusertitleResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="player_deleteusertitleRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="titleid" type="xsd:int"/>
+    </message>
+    <message name="player_deleteusertitleResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="deleteteamtitleRequest">
+        <part name="communityid" type="xsd:int"/>
+        <part name="titleid" type="xsd:int"/>
+    </message>
+    <message name="deleteteamtitleResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="player_deleteteamtitleRequest">
+        <part name="titleid" type="xsd:int"/>
+    </message>
+    <message name="player_deleteteamtitleResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="getusertitleRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getusertitleResponse">
+        <part name="return" type="tns:ArrayOfTitleid"/>
+    </message>
+    <message name="player_getusertitleRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="player_getusertitleResponse">
+        <part name="return" type="tns:ArrayOfTitleid"/>
+    </message>
+    <message name="cancelserviceRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="cancelserviceResponse">
+        <part name="return" type="xsd:boolean"/>
+    </message>
+    <message name="getuserspublictransfersRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getuserspublictransfersResponse">
+        <part name="return" type="tns:ArrayOfTransferItem"/>
+    </message>
+    <message name="getusertransfersRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getusertransfersResponse">
+        <part name="return" type="tns:ArrayOfTransferItem"/>
+    </message>
+    <message name="getplayersboughtRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getplayersboughtResponse">
+        <part name="return" type="tns:ArrayOfTransferItem"/>
+    </message>
+    <message name="getplayerssoldRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getplayerssoldResponse">
+        <part name="return" type="tns:ArrayOfTransferItem"/>
+    </message>
+    <message name="getuserscurrentlineupRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getuserscurrentlineupResponse">
+        <part name="return" type="tns:ArrayOfPlayerlineup"/>
+    </message>
+    <message name="getuserslineupbygamedayRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getuserslineupbygamedayResponse">
+        <part name="return" type="tns:ArrayOfPlayerlineup"/>
+    </message>
+    <message name="getuserslineupbygamedayidRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="gameday_id" type="xsd:int"/>
+    </message>
+    <message name="getuserslineupbygamedayidResponse">
+        <part name="return" type="tns:ArrayOfPlayerlineup"/>
+    </message>    
+    <message name="getalluserscurrentlineupRequest">
+        <part name="userid" type="xsd:int"/>
+    </message>
+    <message name="getalluserscurrentlineupResponse">
+        <part name="return" type="tns:ArrayOfPlayerlineup"/>
+    </message>
+    <message name="getalluserslineupbygamedayRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getalluserslineupbygamedayResponse">
+        <part name="return" type="tns:ArrayOfPlayerlineup"/>
+    </message>
+    <message name="getplayergamedaypointsRequest">
+        <part name="playerid" type="xsd:int"/>
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getplayergamedaypointsResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getplayergamedaystatisticsRequest">
+        <part name="playerid" type="xsd:int"/>
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getplayergamedaystatisticsResponse">
+        <part name="return" type="tns:TradableMatchStats"/>
+    </message>
+    <message name="getplayergamedaystatisticsidRequest">
+        <part name="playerid" type="xsd:int"/>
+        <part name="gameday_id" type="xsd:int"/>
+    </message>
+    <message name="getplayergamedaystatisticsidResponse">
+        <part name="return" type="tns:TradableMatchStats"/>
+    </message>    
+    <message name="getquoteRequest">
+        <part name="playerid" type="xsd:int"/>
+        <part name="date" type="xsd:string"/>
+    </message>
+    <message name="getquoteResponse">
+        <part name="return" type="xsd:int"/>
+    </message>
+    <message name="getuseridsbyplayerRequest">
+        <part name="player" type="xsd:int"/>
+    </message>
+    <message name="getuseridsbyplayerResponse">
+        <part name="return" type="tns:ArrayOfUserid"/>
+    </message>
+    <message name="getwatchlistsbyplayerRequest">
+        <part name="player" type="xsd:int"/>
+    </message>
+    <message name="getwatchlistsbyplayerResponse">
+        <part name="return" type="tns:ArrayOfPlayerid"/>
+    </message>
+    <message name="getusersplayerbygamedayRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getusersplayerbygamedayResponse">
+        <part name="return" type="tns:ArrayOfPlayerlineup"/>
+    </message>
+    <message name="getusersplayerbygamedayidRequest">
+        <part name="userid" type="xsd:int"/>
+        <part name="gameday_id" type="xsd:int"/>
+    </message>
+    <message name="getusersplayerbygamedayidResponse">
+        <part name="return" type="tns:ArrayOfPlayerlineup"/>
+    </message>    
+    <message name="getmultiusersplayerbygamedayRequest">
+        <part name="arr_userid" type="tns:ArrayOfUserid"/>
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getmultiusersplayerbygamedayResponse">
+        <part name="return" type="tns:ArrayOfArrayOfPlayerlineup"/>
+    </message>
+    <message name="getmultiusersplayerbygamedayidRequest">
+        <part name="arr_userid" type="tns:ArrayOfUserid"/>
+        <part name="gameday_id" type="xsd:int"/>
+    </message>
+    <message name="getmultiusersplayerbygamedayidResponse">
+        <part name="return" type="tns:ArrayOfArrayOfPlayerlineup"/>
+    </message>
+    <message name="getbestlineupbygamedayRequest">
+        <part name="gameday" type="xsd:int"/>
+    </message>
+    <message name="getbestlineupbygamedayResponse">
+        <part name="return" type="tns:ArrayOfPlayerscore"/>
+    </message>
+		
+    <portType name="soapservicewsdlPortType">
+        <operation name="checkPermissions">
+            <documentation>Check wether a user has the right to use the service. Returns true on success.</documentation>
+            <input message="tns:checkPermissionsRequest"/>
+            <output message="tns:checkPermissionsResponse"/>
+        </operation>
+        <operation name="checkmultiPermissions">
+            <documentation>Check whether a list of users have the right to use the service. Returns a list of userids with permission.</documentation>
+            <input message="tns:checkmultiPermissionsRequest"/>
+            <output message="tns:checkmultiPermissionsResponse"/>
+        </operation>
+        <operation name="checkcommunitypermissions">
+            <documentation>Check wether a community has the right to use the service. Returns true on success.</documentation>
+            <input message="tns:checkcommunitypermissionsRequest"/>
+            <output message="tns:checkcommunitypermissionsResponse"/>
+        </operation>
+        <operation name="getsoapservicerelease">
+            <documentation>Get release number</documentation>
+            <input message="tns:getsoapservicereleaseRequest"/>
+            <output message="tns:getsoapservicereleaseResponse"/>
+        </operation>
+        <operation name="getuserid">
+            <documentation>Get the ID of a user for the user name (login)</documentation>
+            <input message="tns:getuseridRequest"/>
+            <output message="tns:getuseridResponse"/>
+        </operation>
+        <operation name="getlogin">
+            <documentation>Get the login of a user by the user ID</documentation>
+            <input message="tns:getloginRequest"/>
+            <output message="tns:getloginResponse"/>
+        </operation>
+        <operation name="getUserInformation">
+            <documentation>Get user Informations by the user ID (Only registered IPs and activated IPs for this function)</documentation>
+            <input message="tns:getUserInformationRequest"/>
+            <output message="tns:getUserInformationResponse"/>
+        </operation>
+        <operation name="getusersfirstname">
+            <documentation>Get the first name of a user by the user ID</documentation>
+            <input message="tns:getusersfirstnameRequest"/>
+            <output message="tns:getusersfirstnameResponse"/>
+        </operation>
+        <operation name="getusersname">
+            <documentation>Get the first and last name of a user by the user ID</documentation>
+            <input message="tns:getusersnameRequest"/>
+            <output message="tns:getusersnameResponse"/>
+        </operation>
+        <operation name="getuserspoints">
+            <documentation>Get the current points of a user</documentation>
+            <input message="tns:getuserspointsRequest"/>
+            <output message="tns:getuserspointsResponse"/>
+        </operation>
+        <operation name="getmultiuserspoints">
+            <documentation>Get the current points of users</documentation>
+            <input message="tns:getmultiuserspointsRequest"/>
+            <output message="tns:getmultiuserspointsResponse"/>
+        </operation>
+        <operation name="getusersgamdaybudgetstate">
+            <documentation>state shows if the user receives points or not (true or false)</documentation>
+            <input message="tns:getusersgamdaybudgetstateRequest"/>
+            <output message="tns:getusersgamdaybudgetstateResponse"/>
+        </operation>
+        <operation name="getmultiusersgamdaybudgetstate">
+            <documentation>state shows if the users receives points or not (true or false)</documentation>
+            <input message="tns:getmultiusersgamdaybudgetstateRequest"/>
+            <output message="tns:getmultiusersgamdaybudgetstateResponse"/>
+        </operation>
+        <operation name="getusersdescription">
+            <documentation>Get the description of a user</documentation>
+            <input message="tns:getusersdescriptionRequest"/>
+            <output message="tns:getusersdescriptionResponse"/>
+        </operation>
+        <operation name="getteamvalue">
+            <documentation>Get the total value of a user's team</documentation>
+            <input message="tns:getteamvalueRequest"/>
+            <output message="tns:getteamvalueResponse"/>
+        </operation>
+        <operation name="getteamsize">
+            <documentation>Get the total number of players in a user's team</documentation>
+            <input message="tns:getteamsizeRequest"/>
+            <output message="tns:getteamsizeResponse"/>
+        </operation>
+        <operation name="getcommunityid">
+            <documentation>Get the ID of a community from a user ID</documentation>
+            <input message="tns:getcommunityidRequest"/>
+            <output message="tns:getcommunityidResponse"/>
+        </operation>
+        <operation name="getcommunityname">
+            <documentation>Get the name of a community from a community ID</documentation>
+            <input message="tns:getcommunitynameRequest"/>
+            <output message="tns:getcommunitynameResponse"/>
+        </operation>
+        <operation name="getcommunitynamebyuserid">
+            <documentation>Get the name of a community from a user ID</documentation>
+            <input message="tns:getcommunitynamebyuseridRequest"/>
+            <output message="tns:getcommunitynamebyuseridResponse"/>
+        </operation>
+        <operation name="getuserlogins">
+            <documentation>Get all logins of active or blocked members of a community from the community ID</documentation>
+            <input message="tns:getuserloginsRequest"/>
+            <output message="tns:getuserloginsResponse"/>
+        </operation>
+        <operation name="getuserids">
+            <documentation>Get all user ids of active or blocked members of a community from the community ID</documentation>
+            <input message="tns:getuseridsRequest"/>
+            <output message="tns:getuseridsResponse"/>
+        </operation>
+        <operation name="getgamedays">
+            <documentation>Get all gamdays of the current season</documentation>
+			<input message="tns:getgamedaysRequest"/>
+            <output message="tns:getgamedaysResponse"/>
+        </operation>        
+        <operation name="getcommunityadmins">
+            <documentation>Get all community admin ids of active members of a community from the community ID</documentation>
+            <input message="tns:getcommunityadminsRequest"/>
+            <output message="tns:getcommunityadminsResponse"/>
+        </operation>
+        <operation name="getcommunitymarket">
+            <documentation>Get all player from exchangemarket of a community (only registered IPs)</documentation>
+            <input message="tns:getcommunitymarketRequest"/>
+            <output message="tns:getcommunitymarketResponse"/>
+        </operation>
+        <operation name="player_getcommunitymarket">
+            <documentation>Get all player from exchangemarket of the own community (only registered PRO-Player)</documentation>
+            <input message="tns:player_getcommunitymarketRequest"/>
+            <output message="tns:player_getcommunitymarketResponse"/>
+        </operation>
+        <operation name="getplayerbyid">
+            <documentation>Get a player by id</documentation>
+            <input message="tns:getplayerbyidRequest"/>
+            <output message="tns:getplayerbyidResponse"/>
+        </operation>
+        <operation name="getusergamedaypoints">
+            <documentation>Get the points of a registered user at a gameday, e.g. "1","2","3"</documentation>
+            <input message="tns:getusergamedaypointsRequest"/>
+            <output message="tns:getusergamedaypointsResponse"/>
+        </operation>
+        <operation name="getusergamedaypointsid">
+            <documentation>Get the points of a registered user at a gameday by gameday_id</documentation>
+            <input message="tns:getusergamedaypointsidRequest"/>
+            <output message="tns:getusergamedaypointsidResponse"/>
+        </operation>
+        <operation name="getmultiusergamedaypoints">
+            <documentation>Get the points by gameday of some players (Only registered IPs)</documentation>
+            <input message="tns:getmultiusergamedaypointsRequest"/>
+            <output message="tns:getmultiusergamedaypointsResponse"/>
+        </operation>
+        <operation name="getmultiusergamedaypointsid">
+            <documentation>Get the points by gameday_id of some players (Only registered IPs)</documentation>
+            <input message="tns:getmultiusergamedaypointsidRequest"/>
+            <output message="tns:getmultiusergamedaypointsidResponse"/>
+        </operation>        
+        <operation name="getlatestgameday">
+            <documentation>Get the ID of the lastest game day</documentation>
+            <input message="tns:getlatestgamedayRequest"/>
+            <output message="tns:getlatestgamedayResponse"/>
+        </operation>
+        <operation name="getlatestgamedayid">
+            <documentation>Get gamday_id of the lastest gameday</documentation>
+            <input message="tns:getlatestgamedayidRequest"/>
+            <output message="tns:getlatestgamedayidResponse"/>
+        </operation>
+        <operation name="getcomputernews">
+            <documentation>Get the news of the computer the last x days and y items at most</documentation>
+            <input message="tns:getcomputernewsRequest"/>
+            <output message="tns:getcomputernewsResponse"/>
+        </operation>
+        <operation name="communityexists">
+            <documentation>Check if a community exists</documentation>
+            <input message="tns:communityexistsRequest"/>
+            <output message="tns:communityexistsResponse"/>
+        </operation>
+        <operation name="getclubs">
+            <documentation>Get the clubs available</documentation>
+            <input message="tns:getclubsRequest"/>
+            <output message="tns:getclubsResponse"/>
+        </operation>
+        <operation name="getplayersbyclubid">
+            <documentation>Get the players of a club</documentation>
+            <input message="tns:getplayersbyclubidRequest"/>
+            <output message="tns:getplayersbyclubidResponse"/>
+        </operation>
+        <operation name="getplayersbyclubidinclretired">
+            <documentation>Get the players of a club including retired ones</documentation>
+            <input message="tns:getplayersbyclubidinclretiredRequest"/>
+            <output message="tns:getplayersbyclubidinclretiredResponse"/>
+        </operation>
+        <operation name="getplayerssportaldeid">
+            <documentation>Get the Sportal.de ID of a player</documentation>
+            <input message="tns:getplayerssportaldeidRequest"/>
+            <output message="tns:getplayerssportaldeidResponse"/>
+        </operation>
+        <operation name="getplayerbysportaldeid">
+            <documentation>Get the ID of a player by providing the sportal.de ID</documentation>
+            <input message="tns:getplayerbysportaldeidRequest"/>
+            <output message="tns:getplayerbysportaldeidResponse"/>
+        </operation>
+        <operation name="getplayersspoxid">
+            <documentation>Get the spox.com ID of a player</documentation>
+            <input message="tns:getplayersspoxidRequest"/>
+            <output message="tns:getplayersspoxidResponse"/>
+        </operation>
+        <operation name="getplayerbyspoxid">
+            <documentation>Get the ID of a player by providing the spox.com ID</documentation>
+            <input message="tns:getplayerbyspoxidRequest"/>
+            <output message="tns:getplayerbyspoxidResponse"/>
+        </operation>
+        <operation name="getplayersbyuserid">
+            <documentation>Get the players of a user</documentation>
+            <input message="tns:getplayersbyuseridRequest"/>
+            <output message="tns:getplayersbyuseridResponse"/>
+        </operation>
+        <operation name="getplayersinfobyuserid">
+            <documentation>Get the players with purchase info of a user (Only registered and activated IPs for this function)</documentation>
+            <input message="tns:getplayersinfobyuseridRequest"/>
+            <output message="tns:getplayersinfobyuseridResponse"/>
+        </operation>
+        <operation name="getpartnerranking">
+            <documentation>Get a ranking of all users registered through this partner. (Only registered IPs)</documentation>
+            <input message="tns:getpartnerrankingRequest"/>
+            <output message="tns:getpartnerrankingResponse"/>
+        </operation>
+        <operation name="getlastpartnerranking">
+            <documentation>Get a ranking of all users registered through this partner for the last gameday. (Only registered IPs)</documentation>
+            <input message="tns:getlastpartnerrankingRequest"/>
+            <output message="tns:getlastpartnerrankingResponse"/>
+        </operation>
+        <operation name="getserviceranking">
+            <documentation>Get a ranking of all users registered for this service. (Only registered IPs)</documentation>
+            <input message="tns:getservicerankingRequest"/>
+            <output message="tns:getservicerankingResponse"/>
+        </operation>
+        <operation name="signupservice">
+            <documentation>Signup a user for this web service, returns true on success. (Only registered IPs)</documentation>
+            <input message="tns:signupserviceRequest"/>
+            <output message="tns:signupserviceResponse"/>
+        </operation>
+        <operation name="getserviceexpirationdate">
+            <documentation>Get the expiration date of this web service for a user, returns date on success. (Only registered IPs)</documentation>
+            <input message="tns:getserviceexpirationdateRequest"/>
+            <output message="tns:getserviceexpirationdateResponse"/>
+        </operation>
+        <operation name="getregisteredusers">
+            <documentation>get registered users for your service, returns userids on success. Will return all userids, beware for some userids the service might have expired. You can test the expiration date with getserviceexpirationdate. (Only registered clients)</documentation>
+            <input message="tns:getregisteredusersRequest"/>
+            <output message="tns:getregisteredusersResponse"/>
+        </operation>
+        <operation name="postcommunitynews">
+            <documentation>post news message visible for every community member (only registered IPs)</documentation>
+            <input message="tns:postcommunitynewsRequest"/>
+            <output message="tns:postcommunitynewsResponse"/>
+        </operation>
+        <operation name="player_postcommunitynews">
+            <documentation>post news message visible for every community member (only registered PRO-Player)</documentation>
+            <input message="tns:player_postcommunitynewsRequest"/>
+            <output message="tns:player_postcommunitynewsResponse"/>
+        </operation>
+        <operation name="postusernews">
+            <documentation>post news message visible only for this user (only registered IPs)</documentation>
+            <input message="tns:postusernewsRequest"/>
+            <output message="tns:postusernewsResponse"/>
+        </operation>
+        <operation name="player_postusernews">
+            <documentation>post news message visible only for this user (only registered PRO-Player)</documentation>
+            <input message="tns:player_postusernewsRequest"/>
+            <output message="tns:player_postusernewsResponse"/>
+        </operation>
+        <operation name="postmultiusernews">
+            <documentation>post one news message to many users (visible only for the user) return array of failed userids (only registered IPs)</documentation>
+            <input message="tns:postmultiusernewsRequest"/>
+            <output message="tns:postmultiusernewsResponse"/>
+        </operation>
+        <operation name="player_postmultiusernews">
+            <documentation>post one news message to many users (visible only for the user) return array of failed userids (only registered PRO-Player)</documentation>
+            <input message="tns:player_postmultiusernewsRequest"/>
+            <output message="tns:player_postmultiusernewsResponse"/>
+        </operation>
+        <operation name="postadminnews">
+            <documentation>post one news message to all users of one type (only registered IPs)</documentation>
+            <input message="tns:postadminnewsRequest"/>
+            <output message="tns:postadminnewsResponse"/>
+        </operation>
+        <operation name="getcurrentbudget">
+            <documentation>Read the current budget of a user (registered IPs only)</documentation>
+            <input message="tns:getcurrentbudgetRequest"/>
+            <output message="tns:getcurrentbudgetResponse"/>
+        </operation>
+        <operation name="setuserbonus">
+            <documentation>Impose a bonus or a fine for a user (registered IPs only)</documentation>
+            <input message="tns:setuserbonusRequest"/>
+            <output message="tns:setuserbonusResponse"/>
+        </operation>
+        <operation name="player_setuserbonus">
+            <documentation>Impose a bonus or a fine for a user (only registered PRO-Player)</documentation>
+            <input message="tns:player_setuserbonusRequest"/>
+            <output message="tns:player_setuserbonusResponse"/>
+        </operation>
+        <operation name="getcommunitybonus">
+            <documentation>Get total bonus of a community since season started.</documentation>
+            <input message="tns:getcommunitybonusRequest"/>
+            <output message="tns:getcommunitybonusResponse"/>
+        </operation>
+        <operation name="getuserbonus">
+            <documentation>Get bonus of a single user since season started</documentation>
+            <input message="tns:getuserbonusRequest"/>
+            <output message="tns:getuserbonusResponse"/>
+        </operation>
+        <operation name="getuserpenalty">
+            <documentation>Get penalty of a single user since season started</documentation>
+            <input message="tns:getuserpenaltyRequest"/>
+            <output message="tns:getuserpenaltyResponse"/>
+        </operation>
+        <operation name="setusertitle">
+            <documentation>Set title for a single user (registered IPs only)</documentation>
+            <input message="tns:setusertitleRequest"/>
+            <output message="tns:setusertitleResponse"/>
+        </operation>
+        <operation name="player_setusertitle">
+            <documentation>Set title for a single user (only registered PRO-Player)</documentation>
+            <input message="tns:player_setusertitleRequest"/>
+            <output message="tns:player_setusertitleResponse"/>
+        </operation>
+        <operation name="deleteusertitle">
+            <documentation>Deletet title for a single user (registered IPs only)</documentation>
+            <input message="tns:deleteusertitleRequest"/>
+            <output message="tns:deleteusertitleResponse"/>
+        </operation>
+        <operation name="player_deleteusertitle">
+            <documentation>Deletet title for a single user (only registered PRO-Player)</documentation>
+            <input message="tns:player_deleteusertitleRequest"/>
+            <output message="tns:player_deleteusertitleResponse"/>
+        </operation>
+        <operation name="deleteteamtitle">
+            <documentation>Deletet title for whole community (registered IPs only)</documentation>
+            <input message="tns:deleteteamtitleRequest"/>
+            <output message="tns:deleteteamtitleResponse"/>
+        </operation>
+        <operation name="player_deleteteamtitle">
+            <documentation>Deletet title for whole community (only registered PRO-Player)</documentation>
+            <input message="tns:player_deleteteamtitleRequest"/>
+            <output message="tns:player_deleteteamtitleResponse"/>
+        </operation>
+        <operation name="getusertitle">
+            <documentation>get titles for a single user (registered IPs only)</documentation>
+            <input message="tns:getusertitleRequest"/>
+            <output message="tns:getusertitleResponse"/>
+        </operation>
+        <operation name="player_getusertitle">
+            <documentation>get titles for a single user (only registered PRO-Player)</documentation>
+            <input message="tns:player_getusertitleRequest"/>
+            <output message="tns:player_getusertitleResponse"/>
+        </operation>
+        <operation name="cancelservice">
+            <documentation>Cancel a user for this web service, returns true on success. (Only registered IPs)</documentation>
+            <input message="tns:cancelserviceRequest"/>
+            <output message="tns:cancelserviceResponse"/>
+        </operation>
+        <operation name="getuserspublictransfers">
+            <documentation>Get user Transfers since last gameday if transaction values are public</documentation>
+            <input message="tns:getuserspublictransfersRequest"/>
+            <output message="tns:getuserspublictransfersResponse"/>
+        </operation>
+        <operation name="getusertransfers">
+            <documentation>Get a user's transfers since last gameday (registered IPs only)</documentation>
+            <input message="tns:getusertransfersRequest"/>
+            <output message="tns:getusertransfersResponse"/>
+        </operation>
+        <operation name="getplayersbought">
+            <documentation>Get players bought by a user since the specified gameday. May be incomplete. (registered IPs only)</documentation>
+            <input message="tns:getplayersboughtRequest"/>
+            <output message="tns:getplayersboughtResponse"/>
+        </operation>
+        <operation name="getplayerssold">
+            <documentation>Get players sold by a user since the specified gameday. May be incomplete. (registered IPs only)</documentation>
+            <input message="tns:getplayerssoldRequest"/>
+            <output message="tns:getplayerssoldResponse"/>
+        </operation>
+        <operation name="getuserscurrentlineup">
+            <documentation>Get current users lineup</documentation>
+            <input message="tns:getuserscurrentlineupRequest"/>
+            <output message="tns:getuserscurrentlineupResponse"/>
+        </operation>
+        <operation name="getuserslineupbygameday">
+            <documentation>Get the users lineup on gameyday</documentation>
+            <input message="tns:getuserslineupbygamedayRequest"/>
+            <output message="tns:getuserslineupbygamedayResponse"/>
+        </operation>
+        <operation name="getuserslineupbygamedayid">
+            <documentation>Get the users lineup on gameyday by gamday_id</documentation>
+            <input message="tns:getuserslineupbygamedayidRequest"/>
+            <output message="tns:getuserslineupbygamedayidResponse"/>
+        </operation>
+        <operation name="getusersplayerbygameday">
+            <documentation>Get the users lineup on gameyday</documentation>
+            <input message="tns:getusersplayerbygamedayRequest"/>
+            <output message="tns:getusersplayerbygamedayResponse"/>
+        </operation>
+        <operation name="getusersplayerbygamedayid">
+            <documentation>Get the users lineup on gameyday by gamday_id</documentation>
+            <input message="tns:getusersplayerbygamedayidRequest"/>
+            <output message="tns:getusersplayerbygamedayidResponse"/>
+        </operation>
+        <operation name="getmultiusersplayerbygameday">
+            <documentation>Get the users lineup on gameyday</documentation>
+            <input message="tns:getmultiusersplayerbygamedayRequest"/>
+            <output message="tns:getmultiusersplayerbygamedayResponse"/>
+        </operation>
+        <operation name="getmultiusersplayerbygamedayid">
+            <documentation>Get the users lineup on gameyday by gamday_id</documentation>
+            <input message="tns:getmultiusersplayerbygamedayidRequest"/>
+            <output message="tns:getmultiusersplayerbygamedayidResponse"/>
+        </operation>
+        <operation name="getalluserscurrentlineup">
+            <documentation>Get current users lineup (Only registered IPs and activated IPs for this function)</documentation>
+            <input message="tns:getalluserscurrentlineupRequest"/>
+            <output message="tns:getalluserscurrentlineupResponse"/>
+        </operation>
+        <operation name="getalluserslineupbygameday">
+            <documentation>Get the users lineup on gameyday (Only registered IPs and activated IPs for this function)</documentation>
+            <input message="tns:getalluserslineupbygamedayRequest"/>
+            <output message="tns:getalluserslineupbygamedayResponse"/>
+        </operation>
+        <operation name="getplayergamedaypoints">
+            <documentation>Get the player points by gameday (Only registered IPs)</documentation>
+            <input message="tns:getplayergamedaypointsRequest"/>
+            <output message="tns:getplayergamedaypointsResponse"/>
+        </operation>
+        <operation name="getplayergamedaystatistics">
+            <documentation>Get the player statistics by gameday (Only registered IPs)</documentation>
+            <input message="tns:getplayergamedaystatisticsRequest"/>
+            <output message="tns:getplayergamedaystatisticsResponse"/>
+        </operation>
+        <operation name="getplayergamedaystatisticsid">
+            <documentation>Get the player statistics by gameday_id (Only registered IPs)</documentation>
+            <input message="tns:getplayergamedaystatisticsidRequest"/>
+            <output message="tns:getplayergamedaystatisticsidResponse"/>
+        </operation>
+        <operation name="getquote">
+            <documentation>Gets the player's quote, optionally by date. (Only registered IPs)</documentation>
+            <input message="tns:getquoteRequest"/>
+            <output message="tns:getquoteResponse"/>
+        </operation>
+        <operation name="getuseridsbyplayer">
+            <documentation>Get the users registered for this service with have the player in their squad (Only registered IPs)</documentation>
+            <input message="tns:getuseridsbyplayerRequest"/>
+            <output message="tns:getuseridsbyplayerResponse"/>
+        </operation>
+        <operation name="getwatchlistsbyplayer">
+            <documentation>Get the users registered for this service with this player on there watchlist (Only registered IPs and activated IPs for this function)</documentation>
+            <input message="tns:getwatchlistsbyplayerRequest"/>
+            <output message="tns:getwatchlistsbyplayerResponse"/>
+        </operation>
+        <operation name="getbestlineupbygameday">
+            <documentation>Get the best lineup for a given gameday</documentation>
+            <input message="tns:getbestlineupbygamedayRequest"/>
+            <output message="tns:getbestlineupbygamedayResponse"/>
+        </operation>
+    </portType>
+    <binding name="soapservicewsdlBinding" type="tns:soapservicewsdlPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="checkPermissions">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="checkmultiPermissions">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="checkcommunitypermissions">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getsoapservicerelease">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getuserid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getlogin">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getUserInformation">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getusersfirstname">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getusersname">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getuserspoints">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getmultiuserspoints">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getusersgamdaybudgetstate">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getmultiusersgamdaybudgetstate">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getusersdescription">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getteamvalue">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getteamsize">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getcommunityid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getcommunityname">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getcommunitynamebyuserid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getuserlogins">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getuserids">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getgamedays">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getcommunityadmins">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getcommunitymarket">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="player_getcommunitymarket">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayerbyid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getusergamedaypoints">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getusergamedaypointsid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getmultiusergamedaypoints">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getmultiusergamedaypointsid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getlatestgameday">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getlatestgamedayid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getcomputernews">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="communityexists">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getclubs">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayersbyclubid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayersbyclubidinclretired">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayerssportaldeid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayerbysportaldeid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayersspoxid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayerbyspoxid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayersbyuserid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayersinfobyuserid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getpartnerranking">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getlastpartnerranking">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getserviceranking">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="signupservice">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getserviceexpirationdate">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getregisteredusers">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="postcommunitynews">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="player_postcommunitynews">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="postusernews">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="player_postusernews">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="postmultiusernews">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="player_postmultiusernews">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="postadminnews">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getcurrentbudget">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="setuserbonus">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="player_setuserbonus">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getcommunitybonus">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getuserbonus">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getuserpenalty">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="setusertitle">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="player_setusertitle">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="deleteusertitle">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="player_deleteusertitle">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="deleteteamtitle">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="player_deleteteamtitle">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getusertitle">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="player_getusertitle">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="cancelservice">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getuserspublictransfers">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getusertransfers">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayersbought">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayerssold">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getuserscurrentlineup">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getuserslineupbygameday">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getuserslineupbygamedayid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>        
+        <operation name="getalluserscurrentlineup">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getalluserslineupbygameday">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayergamedaypoints">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayergamedaystatistics">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getplayergamedaystatisticsid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>        
+         <operation name="getquote">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getuseridsbyplayer">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getwatchlistsbyplayer">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <!-- ww 31.05.2011 -->
+        <operation name="getusersplayerbygameday">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getusersplayerbygamedayid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>        
+        <operation name="getmultiusersplayerbygameday">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <operation name="getmultiusersplayerbygamedayid">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <!-- -->
+        <!-- ww 12.08.2011 -->
+        <operation name="getbestlineupbygameday">
+            <soap:operation soapAction="http://rpc.comunio.de/soapservice.php"/>
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </output>
+        </operation>
+        <!-- -->
+    </binding>
+    <service name="soapservicewsdl">
+        <port name="soapservicewsdlPort" binding="tns:soapservicewsdlBinding">
+            <soap:address location="http://rpc.comunio.de/soapservice.php"/>
+        </port>
+    </service>
+</definitions>

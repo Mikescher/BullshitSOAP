@@ -63,7 +63,7 @@ public class WSDLSequenceTypeDefinition extends WSDLComplexTypeDefinition {
 	}
 
 	@Override
-	public String generateClassCode() {
+	protected String generateClassCodeInternal() {
 		// TODO IMPLEMENT GENERATE CLASS CODE
 		return null;
 	}

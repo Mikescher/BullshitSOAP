@@ -46,7 +46,7 @@ public class WSDLObjectTypeDefinition extends WSDLComplexTypeDefinition {
 	}
 
 	@Override
-	public String generateClassCode() {
+	protected String generateClassCodeInternal() {
 		// TODO IMPLEMENT GENERATE CLASS CODE
 		return null;
 	}

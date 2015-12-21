@@ -2,6 +2,7 @@ package de.samdev.bullshitsoap.parser.types;
 
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
+import de.samdev.bullshitsoap.parser.helper.PathHelper;
 
 public class WSDLIntegerTypeDefinition extends WSDLPrimitiveTypeDefinition {
 
@@ -19,8 +20,7 @@ public class WSDLIntegerTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	}
 
 	@Override
-	public String generateClassCode() {
-		// TODO IMPLEMENT GENERATE CLASS CODE
-		return null;
+	protected String generateClassCodeInternal() {
+		return PathHelper.getResourceFile("/WSDLObjectInt.java-template");
 	}
 }
