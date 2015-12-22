@@ -26,14 +26,14 @@ public class WSDLObjectLong extends WSDLObject {
 		Element result = new Element(name);
 
 		result.addAttribute(new Attribute(
-				"type", 
-				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMAINSTANCE, 
+				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMAINSTANCE + ":" + "type", 
+				WSDLNamespaceCollection.NAMESPACE_PATH_XML_SCHEMAINSTANCE, 
 				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMA + ":long", 
 				Type.CDATA));
 		
 		result.appendChild(Long.toString(value));
 		
-		return null;
+		return result;
 	}
 	
 	public static WSDLObjectLong createFromXML(Element e) throws NumberFormatException {

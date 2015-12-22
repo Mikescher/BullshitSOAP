@@ -46,6 +46,7 @@ public class WSDLDefinition {
 
 	private String typeNamespace;
 	private String serviceURL;
+	private String internalNamespace;
 	
 	public WSDLDefinition(String xml, String url) throws WSDLParsingException  {
 		super();
@@ -79,6 +80,11 @@ public class WSDLDefinition {
 		parseTypes(types);
 		parseMessages(root, targetNS);
 		parseOperations(root, targetNS);
+		parseInternalServiceNamespace(root);
+	}
+
+	private void parseInternalServiceNamespace(Element root) {
+		internalNamespace = "urn:" + root.getFirstChildElement("service", NS_WSDL).getAttributeValue("name");
 	}
 
 	private void parseOperations(Element root, String targetNS) throws NumberFormatException, WSDLParsingException {

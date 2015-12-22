@@ -1,5 +1,6 @@
 package de.samdev.bullshitsoap;
 
+import de.samdev.bullshitsoap.comunioWebService.WSDLServiceComunioWebService;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.helper.PathHelper;
 
@@ -12,6 +13,7 @@ public class ConsoleMain {
 			
 			wsdl.createAPIClasses(PathHelper.combinePaths(System.getProperty("user.dir"), "src/main/java"), "de.samdev.bullshitsoap");
 			
+			DebugLogger.Log("getuserid(Sim91) := " + WSDLServiceComunioWebService.getuserid("Sim91"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

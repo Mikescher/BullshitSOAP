@@ -54,9 +54,9 @@ public class WSDLRequestResponseOperation extends WSDLOperation {
 		{
 			buildr.append("\tpublic static $RESPONSE$ $NAME$($REQUEST$ input) throws IOException, ValidityException, ParsingException {" 			+ "\r\n");
 			buildr.append("\t\tBuilder xom = new Builder();" 																						+ "\r\n");
-			buildr.append("\t\tString request = input.serialize().toXML();" 																		+ "\r\n");
+			buildr.append("\t\tString request = input.serialize(\"$NAME$\").toXML();" 																+ "\r\n");
 			buildr.append("\t\tString response = invoker.getReponse(request);" 																		+ "\r\n");
-			buildr.append("\t\t$RESPONSE$ result = $RESPONSE$.createFromXML(xom.build(response, null));" 											+ "\r\n");
+			buildr.append("\t\t$RESPONSE$ result = $RESPONSE$.createFromXML(xom.build(response, null), \"$NAME$\");" 								+ "\r\n");
 			buildr.append("\t\treturn result;" 																										+ "\r\n");
 			buildr.append("\t}" 																													+ "\r\n");
 		}
@@ -65,18 +65,18 @@ public class WSDLRequestResponseOperation extends WSDLOperation {
 			buildr.append(""  																														+ "\r\n");
 			buildr.append("\tpublic static $RESPONSE$ $NAME$() throws IOException, ValidityException, ParsingException {" 							+ "\r\n");
 			buildr.append("\t\tBuilder xom = new Builder();" 																						+ "\r\n");
-			buildr.append("\t\tString request = $REQUEST$.create()" 																				+ "\r\n");
+			buildr.append("\t\tString request = $REQUEST$.create().serialize(\"$NAME$\").toXML();" 													+ "\r\n");
 			buildr.append("\t\tString response = invoker.getReponse(request);" 																		+ "\r\n");
-			buildr.append("\t\t$RESPONSE$ result = $RESPONSE$.createFromXML(xom.build(response, null));" 											+ "\r\n");
+			buildr.append("\t\t$RESPONSE$ result = $RESPONSE$.createFromXML(xom.build(response, null), \"$NAME$\");" 								+ "\r\n");
 			buildr.append("\t\treturn result;" 																										+ "\r\n");
 			buildr.append("\t}"  																													+ "\r\n");
 		} else {
 			buildr.append(""  																														+ "\r\n");
 			buildr.append("\tpublic static $RESPONSE$ $NAME$($PARAMS_WRAPPED$) throws IOException, ValidityException, ParsingException {" 			+ "\r\n");
 			buildr.append("\t\tBuilder xom = new Builder();" 																						+ "\r\n");
-			buildr.append("\t\tString request = $REQUEST$.create($FLATPARAMS_WRAPPED$).serialize().toXML();" 										+ "\r\n");
+			buildr.append("\t\tString request = $REQUEST$.create($FLATPARAMS_WRAPPED$).serialize(\"$NAME$\").toXML();" 								+ "\r\n");
 			buildr.append("\t\tString response = invoker.getReponse(request);" 																		+ "\r\n");
-			buildr.append("\t\t$RESPONSE$ result = $RESPONSE$.createFromXML(xom.build(response, null));" 											+ "\r\n");
+			buildr.append("\t\t$RESPONSE$ result = $RESPONSE$.createFromXML(xom.build(response, null), \"$NAME$\");" 								+ "\r\n");
 			buildr.append("\t\treturn result;" 																										+ "\r\n");
 			buildr.append("\t}" 																													+ "\r\n");
 			
@@ -85,18 +85,18 @@ public class WSDLRequestResponseOperation extends WSDLOperation {
 					buildr.append(""  																													+ "\r\n");
 					buildr.append("\tpublic static $RESPONSE_P$ $NAME$($PARAMS_WRAPPED_P$) throws IOException, ValidityException, ParsingException {" 	+ "\r\n");
 					buildr.append("\t\tBuilder xom = new Builder();" 																					+ "\r\n");
-					buildr.append("\t\tString request = $REQUEST$.create($FLATPARAMS_WRAPPED_P$).serialize().toXML();" 									+ "\r\n");
+					buildr.append("\t\tString request = $REQUEST$.create($FLATPARAMS_WRAPPED_P$).serialize(\"$NAME$\").toXML();" 						+ "\r\n");
 					buildr.append("\t\tString response = invoker.getReponse(request);" 																	+ "\r\n");
-					buildr.append("\t\t$RESPONSE$ result = $RESPONSE$.createFromXML(xom.build(response, null));" 										+ "\r\n");
+					buildr.append("\t\t$RESPONSE$ result = $RESPONSE$.createFromXML(xom.build(response, null), \"$NAME$\");" 							+ "\r\n");
 					buildr.append("\t\treturn result.field_$RESPONSE_FIELD$.value;" 																	+ "\r\n");
 					buildr.append("\t}" 																												+ "\r\n");
 				} else {
 					buildr.append(""  																													+ "\r\n");
 					buildr.append("\tpublic static $RESPONSE$ $NAME$($PARAMS_WRAPPED_P$) throws IOException, ValidityException, ParsingException {" 	+ "\r\n");
 					buildr.append("\t\tBuilder xom = new Builder();" 																					+ "\r\n");
-					buildr.append("\t\tString request = $REQUEST$.create($FLATPARAMS_WRAPPED_P$).serialize().toXML();" 									+ "\r\n");
+					buildr.append("\t\tString request = $REQUEST$.create($FLATPARAMS_WRAPPED_P$).serialize(\"$NAME$\").toXML();" 						+ "\r\n");
 					buildr.append("\t\tString response = invoker.getReponse(request);" 																	+ "\r\n");
-					buildr.append("\t\t$RESPONSE$ result = $RESPONSE$.createFromXML(xom.build(response, null));" 										+ "\r\n");
+					buildr.append("\t\t$RESPONSE$ result = $RESPONSE$.createFromXML(xom.build(response, null), \"$NAME$\");" 							+ "\r\n");
 					buildr.append("\t\treturn result;" 																									+ "\r\n");
 					buildr.append("\t}" 																												+ "\r\n");
 				}

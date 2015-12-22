@@ -7,6 +7,12 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Attribute.Type;
 
+/****************************************************************************** 
+ *                                                                            * 
+ *           THIS CODE WAS CREATED BY BULLSHITSOAP - DO NOT CHANGE            * 
+ *                                                                            * 
+ ******************************************************************************/
+
 public class WSDLObjectNews_user_type extends WSDLObject {
 	public enum EnumValue_news_user_type {
 		ALL("ALL"),
@@ -43,14 +49,14 @@ public class WSDLObjectNews_user_type extends WSDLObject {
 		Element result = new Element(name);
 		
 		result.addAttribute(new Attribute(
-				"type", 
-				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMAINSTANCE, 
+				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMAINSTANCE + ":" + "type", 
+				WSDLNamespaceCollection.NAMESPACE_PATH_XML_SCHEMAINSTANCE, 
 				WSDLNamespaceCollection.NAMESPACE_PREFIX_SERVICE_BASE + ":" + "news_user_type", 
 				Type.CDATA));
 		
 		result.appendChild(value.representation);
 		
-		return null;
+		return result;
 	}
 	
 	public static WSDLObjectNews_user_type createFromXML(Element e) throws IOException {

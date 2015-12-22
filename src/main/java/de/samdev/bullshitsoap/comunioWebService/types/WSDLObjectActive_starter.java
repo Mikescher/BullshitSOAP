@@ -7,6 +7,12 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Attribute.Type;
 
+/****************************************************************************** 
+ *                                                                            * 
+ *           THIS CODE WAS CREATED BY BULLSHITSOAP - DO NOT CHANGE            * 
+ *                                                                            * 
+ ******************************************************************************/
+
 public class WSDLObjectActive_starter extends WSDLObject {
 	public enum EnumValue_Active_starter {
 		FALSE("false"),
@@ -33,14 +39,14 @@ public class WSDLObjectActive_starter extends WSDLObject {
 		Element result = new Element(name);
 		
 		result.addAttribute(new Attribute(
-				"type", 
-				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMAINSTANCE, 
+				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMAINSTANCE + ":" + "type", 
+				WSDLNamespaceCollection.NAMESPACE_PATH_XML_SCHEMAINSTANCE, 
 				WSDLNamespaceCollection.NAMESPACE_PREFIX_SERVICE_BASE + ":" + "Active_starter", 
 				Type.CDATA));
 		
 		result.appendChild(value.representation);
 		
-		return null;
+		return result;
 	}
 	
 	public static WSDLObjectActive_starter createFromXML(Element e) throws IOException {

@@ -63,7 +63,7 @@ public class WSDLMessageDefinition implements IDebugFormattable {
 			for (WSDLMessageDefinitionPart part : fields) {
 				buildr_fields.add(String.format("public final %s field_%s;\r\n", part.Type.getClassCodeName(), part.Name));
 			}
-			code = StringHelper.replaceAll(code, "%CLASSFIELDS%", StringHelper.indentTabPlus(StringHelper.join("\r\n", buildr_fields), 1));
+			code = StringHelper.replaceAll(code, "$CLASSFIELDS$", StringHelper.indentTabPlus(StringHelper.join("\r\n", buildr_fields), 1));
 		}
 		
 		{
@@ -71,7 +71,7 @@ public class WSDLMessageDefinition implements IDebugFormattable {
 			for (WSDLMessageDefinitionPart part : fields) {
 				buildr_fieldinit.add(String.format("field_%s = _%s;", part.Name, part.Name));
 			}
-			code = StringHelper.replaceAll(code, "%FIELDINIT%", StringHelper.indentTabPlus(StringHelper.join("\r\n", buildr_fieldinit), 2));
+			code = StringHelper.replaceAll(code, "$FIELDINIT$", StringHelper.indentTabPlus(StringHelper.join("\r\n", buildr_fieldinit), 2));
 		}
 		
 		{
@@ -79,7 +79,7 @@ public class WSDLMessageDefinition implements IDebugFormattable {
 			for (WSDLMessageDefinitionPart part : fields) {
 				buildr_params.add(String.format("%s _%s", part.Type.getClassCodeName(), part.Name));
 			}
-			code = StringHelper.replaceAll(code, "%PARAMS%", StringHelper.join(", ", buildr_params));
+			code = StringHelper.replaceAll(code, "$PARAMS$", StringHelper.join(", ", buildr_params));
 		}
 		
 		{
@@ -87,7 +87,7 @@ public class WSDLMessageDefinition implements IDebugFormattable {
 			for (WSDLMessageDefinitionPart part : fields) {
 				buildr_flatparams.add(String.format("_%s", part.Name));
 			}
-			code = StringHelper.replaceAll(code, "%FLATPARAMS%", StringHelper.join(", ", buildr_flatparams));
+			code = StringHelper.replaceAll(code, "$FLATPARAMS$", StringHelper.join(", ", buildr_flatparams));
 		}
 		
 		{
@@ -95,7 +95,7 @@ public class WSDLMessageDefinition implements IDebugFormattable {
 			for (WSDLMessageDefinitionPart part : fields) {
 				buildr_createparams.add(String.format("%s.createFromXML(xml_%s)", part.Type.getClassCodeName(), part.Name));
 			}
-			code = StringHelper.replaceAll(code, "%CREATEPARAMS%", StringHelper.join(", ", buildr_createparams));
+			code = StringHelper.replaceAll(code, "$CREATEPARAMS$", StringHelper.join(", ", buildr_createparams));
 		}
 		
 		{
@@ -103,15 +103,15 @@ public class WSDLMessageDefinition implements IDebugFormattable {
 			for (WSDLMessageDefinitionPart part : fields) {
 				buildr_fieldserialize.add(String.format("message.appendChild(field_%s.serialize(\"%s\"));", part.Name, part.Name));
 			}
-			code = StringHelper.replaceAll(code, "%FIELDSERIALIZE%", StringHelper.indentTabPlus(StringHelper.join("\r\n", buildr_fieldserialize), 2));
+			code = StringHelper.replaceAll(code, "$FIELDSERIALIZE$", StringHelper.indentTabPlus(StringHelper.join("\r\n", buildr_fieldserialize), 2));
 		}
 		
 		{
 			List<String> buildr_fielddeserialize = new ArrayList<String>();
 			for (WSDLMessageDefinitionPart part : fields) {
-				buildr_fielddeserialize.add(String.format("Element xml_%s = message.getFirstChildElement(\"%s\");", part.Name, part.Name));
+				buildr_fielddeserialize.add(String.format("Element xml_%s = getFirstChildrenIgnoreNamespace(message, \"%s\");", part.Name, part.Name));
 			}
-			code = StringHelper.replaceAll(code, "%FIELDDESERIALIZE%", StringHelper.indentTabPlus(StringHelper.join("\r\n", buildr_fielddeserialize), 2));
+			code = StringHelper.replaceAll(code, "$FIELDDESERIALIZE$", StringHelper.indentTabPlus(StringHelper.join("\r\n", buildr_fielddeserialize), 2));
 		}
 		
 		return code;

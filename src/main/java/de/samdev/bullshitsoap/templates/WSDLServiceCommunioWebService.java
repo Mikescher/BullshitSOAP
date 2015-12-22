@@ -26,7 +26,7 @@ public final class WSDLServiceCommunioWebService {
 	
 	public static WSDLMessageGetplayerbysportaldeidresponse getplayerbysportaldeid(WSDLMessageGetplayerbysportaldeidrequest input) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
-		String request = input.serialize().toXML();
+		String request = input.serialize("WSDLMessageGetplayerbysportaldeid").toXML();
 		String response = invoker.getReponse(request);
 		WSDLMessageGetplayerbysportaldeidresponse result = WSDLMessageGetplayerbysportaldeidresponse.createFromXML(xom.build(response, null));
 		return result;
@@ -34,7 +34,7 @@ public final class WSDLServiceCommunioWebService {
 	
 	public static WSDLMessageGetplayerbysportaldeidresponse getplayerbysportaldeid(WSDLObjectInt _sportaldeid) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
-		String request = WSDLMessageGetplayerbysportaldeidrequest.create(_sportaldeid).serialize().toXML();
+		String request = WSDLMessageGetplayerbysportaldeidrequest.create(_sportaldeid).serialize("WSDLMessageGetplayerbysportaldeid").toXML();
 		String response = invoker.getReponse(request);
 		WSDLMessageGetplayerbysportaldeidresponse result = WSDLMessageGetplayerbysportaldeidresponse.createFromXML(xom.build(response, null));
 		return result;

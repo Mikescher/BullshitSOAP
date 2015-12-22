@@ -42,7 +42,7 @@ public class WSDLOneWayOperation extends WSDLOperation {
 		
 		buildr.append("\tpublic static void $NAME$($REQUEST$ input) throws IOException, ValidityException, ParsingException {" 	+ "\r\n");
 		buildr.append("\t\tBuilder xom = new Builder();" 																				+ "\r\n");
-		buildr.append("\t\tString request = input.serialize().toXML();" 																+ "\r\n");
+		buildr.append("\t\tString request = input.serialize(\"$NAME$\").toXML();" 														+ "\r\n");
 		buildr.append("\t\tString response = invoker.getReponse(request);" 																+ "\r\n");
 		buildr.append("\t}" 																											+ "\r\n");
 		

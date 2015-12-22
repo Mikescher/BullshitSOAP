@@ -20,10 +20,15 @@ public class WSDLObjectInt extends WSDLObject {
 	public Element serialize(String name) {
 		Element result = new Element(name);
 		
-		result.addAttribute(new Attribute("type", WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMAINSTANCE, WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMA + ":int", Type.CDATA));
+		result.addAttribute(new Attribute(
+				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMAINSTANCE + ":" + "type", 
+				WSDLNamespaceCollection.NAMESPACE_PATH_XML_SCHEMAINSTANCE, 
+				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMA + ":int", 
+				Type.CDATA));
+		  
 		result.appendChild(Integer.toString(value));
 		
-		return null;
+		return result;
 	}
 	
 	public static WSDLObjectInt createFromXML(Element e) throws NumberFormatException {

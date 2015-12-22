@@ -26,14 +26,14 @@ public class WSDLObjectString extends WSDLObject {
 		Element result = new Element(name);
 		
 		result.addAttribute(new Attribute(
-				"type", 
-				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMAINSTANCE, 
+				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMAINSTANCE + ":" + "type", 
+				WSDLNamespaceCollection.NAMESPACE_PATH_XML_SCHEMAINSTANCE, 
 				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMA + ":string", 
 				Type.CDATA));
 		
 		result.appendChild(value);
 		
-		return null;
+		return result;
 	}
 	
 	public static WSDLObjectString createFromXML(Element e) {
