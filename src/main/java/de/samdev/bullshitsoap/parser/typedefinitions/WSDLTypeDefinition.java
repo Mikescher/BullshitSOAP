@@ -1,8 +1,8 @@
 package de.samdev.bullshitsoap.parser.typedefinitions;
 
 import de.samdev.bullshitsoap.parser.IDebugFormattable;
-import de.samdev.bullshitsoap.parser.WSDLCodeGenerationHelper;
 import de.samdev.bullshitsoap.parser.helper.PathHelper;
+import de.samdev.bullshitsoap.parser.helper.WSDLCodeGenerationHelper;
 
 public abstract class WSDLTypeDefinition implements IDebugFormattable {
 	public final String Namespace;

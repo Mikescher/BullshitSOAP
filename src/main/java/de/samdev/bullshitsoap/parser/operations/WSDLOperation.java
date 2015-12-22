@@ -3,6 +3,7 @@ package de.samdev.bullshitsoap.parser.operations;
 import de.samdev.bullshitsoap.parser.IDebugFormattable;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
+import de.samdev.bullshitsoap.parser.helper.StringHelper;
 import nu.xom.Element;
 
 public abstract class WSDLOperation implements IDebugFormattable {
@@ -50,4 +51,6 @@ public abstract class WSDLOperation implements IDebugFormattable {
 	public String toString() {
 		return Name;
 	}
+
+	public abstract String generateClassCode();
 }

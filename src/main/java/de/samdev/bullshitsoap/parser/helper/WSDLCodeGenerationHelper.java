@@ -1,8 +1,6 @@
-package de.samdev.bullshitsoap.parser;
+package de.samdev.bullshitsoap.parser.helper;
 
 import java.util.regex.Matcher;
-
-import de.samdev.bullshitsoap.parser.helper.StringHelper;
 
 public class WSDLCodeGenerationHelper {
 	public static String RefactorPackageDefinitions(String packageBase, String code) {

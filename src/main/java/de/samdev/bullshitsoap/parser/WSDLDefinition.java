@@ -2,7 +2,6 @@ package de.samdev.bullshitsoap.parser;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.Map;
 
 import de.samdev.bullshitsoap.DebugLogger;
 import de.samdev.bullshitsoap.parser.helper.PathHelper;
+import de.samdev.bullshitsoap.parser.helper.WSDLCodeGenerationHelper;
 import de.samdev.bullshitsoap.parser.messagedefinitions.WSDLMessageDefinition;
 import de.samdev.bullshitsoap.parser.operations.WSDLOperation;
 import de.samdev.bullshitsoap.parser.typedefinitions.WSDLBooleanTypeDefinition;
@@ -43,13 +43,15 @@ public class WSDLDefinition {
 	private List<WSDLTypeDefinition> types = new ArrayList<WSDLTypeDefinition>();
 	private List<WSDLMessageDefinition> messages = new ArrayList<WSDLMessageDefinition>();
 	private List<WSDLOperation> operations = new ArrayList<WSDLOperation>();
-	
+
 	private String typeNamespace;
+	private String serviceURL;
 	
-	public WSDLDefinition(String xml) throws WSDLParsingException  {
+	public WSDLDefinition(String xml, String url) throws WSDLParsingException  {
 		super();
 
 		try {
+			serviceURL = url;
 			parseWSDL(xml);
 		} catch (ParsingException e) {
 			throw new WSDLParsingException(e);
@@ -285,11 +287,56 @@ public class WSDLDefinition {
 			
 			outFile.getParentFile().mkdirs();
 			
-			//TODO REM CHECK
-			if (code != null) {
-				PathHelper.writeTextFile(outFile, code);
-				DebugLogger.Log("Create file " + outFile.getName());
-			}
+			PathHelper.writeTextFile(outFile, code);
+			DebugLogger.Log("Create file " + outFile.getName());
 		}
+
+		PathHelper.writeTextFile(new File(
+				PathHelper.combinePaths(servicePackagePath, getClassCodeName() + ".java")), 
+				generateClassCodeMessage(basePackage));
+		DebugLogger.Log("Create file " + getClassCodeName() + ".java");
+	}
+	
+	private String generateClassCodeMessage(String basePackage) {
+		String classname = getClassCodeName();
+		StringBuilder buildr = new StringBuilder();
+
+		buildr.append("package de.samdev.bullshitsoap.templates;" 								+ "\r\n");
+		buildr.append("" 																		+ "\r\n");
+		buildr.append("import java.io.IOException;" 											+ "\r\n");
+		buildr.append("import java.net.URL;" 													+ "\r\n");
+		buildr.append("import de.samdev.bullshitsoap.templates.messages.*;" 					+ "\r\n");
+		buildr.append("import nu.xom.Builder;" 													+ "\r\n");
+		buildr.append("import nu.xom.ParsingException;" 										+ "\r\n");
+		buildr.append("import nu.xom.ValidityException;" 										+ "\r\n");
+		buildr.append("" 																		+ "\r\n");
+		buildr.append("/**DISCLAIMER**/" 														+ "\r\n");
+		buildr.append("" 																		+ "\r\n");
+		buildr.append("public final class " + classname + " {" 									+ "\r\n");
+		buildr.append("\tprivate static WSDLInvoker invoker = null;" 							+ "\r\n");
+		buildr.append("\t" 																		+ "\r\n");
+		buildr.append("\tstatic { " 															+ "\r\n");
+		buildr.append("\t\ttry { " 																+ "\r\n");
+		buildr.append("\t\t\tinvoker = new WSDLInvoker(new URL(\"" + serviceURL + "\")); " 		+ "\r\n");
+		buildr.append("\t\t} catch (Exception e) { " 											+ "\r\n");
+		buildr.append("\t\t\t/* Can never happen */" 											+ "\r\n");
+		buildr.append("\t\t} " 																	+ "\r\n");
+		buildr.append("\t}" 																	+ "\r\n");
+		buildr.append("" 																		+ "\r\n");
+		buildr.append("\tprivate " + getClassCodeName() + "() { /* */ }" 						+ "\r\n");
+		buildr.append("" 																		+ "\r\n");
+		
+		for (WSDLOperation operation : operations) {
+			buildr.append(operation.generateClassCode());
+			buildr.append("\r\n");
+		}
+		
+		buildr.append("}" + "\r\n");
+		
+		return WSDLCodeGenerationHelper.RefactorPackageDefinitions(basePackage,  buildr.toString());
+	}
+
+	private String getClassCodeName() {
+		return "WSDLService" + serviceName;
 	}
 }

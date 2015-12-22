@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.samdev.bullshitsoap.parser.IDebugFormattable;
-import de.samdev.bullshitsoap.parser.WSDLCodeGenerationHelper;
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
 import de.samdev.bullshitsoap.parser.helper.PathHelper;
 import de.samdev.bullshitsoap.parser.helper.StringHelper;
+import de.samdev.bullshitsoap.parser.helper.WSDLCodeGenerationHelper;
 import de.samdev.bullshitsoap.parser.typedefinitions.WSDLTypeDefinition;
 import nu.xom.Element;
 import nu.xom.Elements;

@@ -35,4 +35,9 @@ public class WSDLNotificationOperation extends WSDLOperation {
 				Name, 
 				StringHelper.indent("Output: " + Output.toDebugString()));
 	}
+
+	@Override
+	public String generateClassCode() {
+		return "/* " + Name + "*/" + "\r\n";
+	}
 }

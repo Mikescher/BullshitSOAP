@@ -41,4 +41,25 @@ public class WSDLRequestResponseOperation extends WSDLOperation {
 				StringHelper.indent("Input: "  + Input.toDebugString()), 
 				StringHelper.indent("Output: " + Output.toDebugString()));
 	}
+
+	@Override
+	public String generateClassCode() {
+		StringBuilder buildr = new StringBuilder();
+		
+		buildr.append("\tpublic static $RESPONSE$ $NAME$($REQUEST$ input) throws IOException, ValidityException, ParsingException {" 	+ "\r\n");
+		buildr.append("\t\tBuilder xom = new Builder();" 																				+ "\r\n");
+		buildr.append("\t\tString request = input.serialize().toXML();" 																+ "\r\n");
+		buildr.append("\t\tString response = invoker.getReponse(request);" 																+ "\r\n");
+		buildr.append("\t\t$RESPONSE$ result = $RESPONSE$.createFromXML(xom.build(response, null));" 									+ "\r\n");
+		buildr.append("\t\treturn result;" 																								+ "\r\n");
+		buildr.append("\t}" 																											+ "\r\n");
+		
+		String code = buildr.toString();
+
+		code = StringHelper.replaceAll(code, "$REQUEST$", Input.getClassCodeName());
+		code = StringHelper.replaceAll(code, "$RESPONSE$", Output.getClassCodeName());
+		code = StringHelper.replaceAll(code, "$NAME$", Name);
+		
+		return code.toString();
+	}
 }

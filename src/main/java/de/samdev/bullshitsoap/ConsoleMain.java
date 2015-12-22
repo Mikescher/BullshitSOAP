@@ -7,8 +7,8 @@ public class ConsoleMain {
 
 	public static void main(String[] args) {
 		try {
-			//WSDLDefinition wsdl = new WSDLDefinition(HTTPReader.getHTTP("http://www.comunio.de/soapservice.php?wsdl"));
-			WSDLDefinition wsdl = new WSDLDefinition(PathHelper.getResourceFile("/wsdl_example.xml"));
+			//WSDLDefinition wsdl = new WSDLDefinition(HTTPReader.getHTTP("http://www.comunio.de/soapservice.php?wsdl", "http://www.comunio.de/soapservice.php?wsdl"));
+			WSDLDefinition wsdl = new WSDLDefinition(PathHelper.getResourceFile("/wsdl_example.xml"), "http://www.comunio.de/soapservice.php?wsdl");
 			
 			wsdl.createAPIClasses(PathHelper.combinePaths(System.getProperty("user.dir"), "src/main/java"), "de.samdev.bullshitsoap");
 			

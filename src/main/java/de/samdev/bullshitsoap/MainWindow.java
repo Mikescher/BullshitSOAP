@@ -293,7 +293,7 @@ public class MainWindow extends JFrame {
 			protected Void doInBackground() throws Exception {
 				try {
 					String wsdlSource = HTTPReader.getHTTP(url);
-					final WSDLDefinition threadWSDL = new WSDLDefinition(wsdlSource);
+					final WSDLDefinition threadWSDL = new WSDLDefinition(wsdlSource, url);
 
 					EventQueue.invokeAndWait(new Runnable() {
 						@Override
