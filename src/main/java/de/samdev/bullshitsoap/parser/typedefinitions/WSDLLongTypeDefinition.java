@@ -28,4 +28,14 @@ public class WSDLLongTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	public String getPrimitiveClassCodeName() {
 		return "long";
 	}
+
+	@Override
+	public String generateEnumName(Object object, int i) {
+		return "VALUE_" + ((Long)object).toString();
+	}
+
+	@Override
+	public String generateLiteralCode(Object object) {
+		return "new Long(" + ((Long)object).toString() + ")";
+	}
 }

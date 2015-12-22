@@ -28,4 +28,14 @@ public class WSDLFloatTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	public String getPrimitiveClassCodeName() {
 		return "float";
 	}
+
+	@Override
+	public String generateEnumName(Object object, int i) {
+		return "VALUE_" + ((Float)object).toString();
+	}
+
+	@Override
+	public String generateLiteralCode(Object object) {
+		return "new Float(" + ((Float)object).toString() + ")";
+	}
 }

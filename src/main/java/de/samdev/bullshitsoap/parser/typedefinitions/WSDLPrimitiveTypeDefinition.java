@@ -26,4 +26,6 @@ public abstract class WSDLPrimitiveTypeDefinition extends WSDLSimpleTypeDefiniti
 	}
 
 	public abstract String getPrimitiveClassCodeName();
+	public abstract String generateEnumName(Object object, int i);
+	public abstract String generateLiteralCode(Object object);
 }

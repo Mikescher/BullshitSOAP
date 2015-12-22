@@ -123,7 +123,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static int getuserid(string _login) throws IOException, ValidityException, ParsingException {
+	public static int getuserid(String _login) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessageGetuseridrequest.create(WSDLObjectString.create(_login)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -147,7 +147,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static string getlogin(int _userid) throws IOException, ValidityException, ParsingException {
+	public static String getlogin(int _userid) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessageGetloginrequest.create(WSDLObjectInt.create(_userid)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -171,7 +171,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static WSDLMessageGetuserinformationresponse getUserInformation(int _userid, string _md5password) throws IOException, ValidityException, ParsingException {
+	public static WSDLMessageGetuserinformationresponse getUserInformation(int _userid, String _md5password) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessageGetuserinformationrequest.create(WSDLObjectInt.create(_userid), WSDLObjectString.create(_md5password)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -195,7 +195,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static string getusersfirstname(int _userid) throws IOException, ValidityException, ParsingException {
+	public static String getusersfirstname(int _userid) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessageGetusersfirstnamerequest.create(WSDLObjectInt.create(_userid)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -219,7 +219,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static string getusersname(int _userid) throws IOException, ValidityException, ParsingException {
+	public static String getusersname(int _userid) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessageGetusersnamerequest.create(WSDLObjectInt.create(_userid)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -323,7 +323,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static string getusersdescription(int _userid) throws IOException, ValidityException, ParsingException {
+	public static String getusersdescription(int _userid) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessageGetusersdescriptionrequest.create(WSDLObjectInt.create(_userid)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -419,7 +419,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static string getcommunityname(int _communityid) throws IOException, ValidityException, ParsingException {
+	public static String getcommunityname(int _communityid) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessageGetcommunitynamerequest.create(WSDLObjectInt.create(_communityid)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -443,7 +443,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static string getcommunitynamebyuserid(int _userid) throws IOException, ValidityException, ParsingException {
+	public static String getcommunitynamebyuserid(int _userid) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessageGetcommunitynamebyuseridrequest.create(WSDLObjectInt.create(_userid)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -1075,7 +1075,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static string getserviceexpirationdate(int _userid) throws IOException, ValidityException, ParsingException {
+	public static String getserviceexpirationdate(int _userid) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessageGetserviceexpirationdaterequest.create(WSDLObjectInt.create(_userid)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -1115,7 +1115,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static boolean postcommunitynews(int _communityid, string _headline, string _content) throws IOException, ValidityException, ParsingException {
+	public static boolean postcommunitynews(int _communityid, String _headline, String _content) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessagePostcommunitynewsrequest.create(WSDLObjectInt.create(_communityid), WSDLObjectString.create(_headline), WSDLObjectString.create(_content)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -1139,7 +1139,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static boolean player_postcommunitynews(string _headline, string _content) throws IOException, ValidityException, ParsingException {
+	public static boolean player_postcommunitynews(String _headline, String _content) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessagePlayer_postcommunitynewsrequest.create(WSDLObjectString.create(_headline), WSDLObjectString.create(_content)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -1163,7 +1163,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static boolean postusernews(int _userid, string _headline, string _content) throws IOException, ValidityException, ParsingException {
+	public static boolean postusernews(int _userid, String _headline, String _content) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessagePostusernewsrequest.create(WSDLObjectInt.create(_userid), WSDLObjectString.create(_headline), WSDLObjectString.create(_content)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -1187,7 +1187,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static boolean player_postusernews(int _userid, string _headline, string _content) throws IOException, ValidityException, ParsingException {
+	public static boolean player_postusernews(int _userid, String _headline, String _content) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessagePlayer_postusernewsrequest.create(WSDLObjectInt.create(_userid), WSDLObjectString.create(_headline), WSDLObjectString.create(_content)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -1211,7 +1211,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static boolean postmultiusernews(WSDLObjectArrayofuserid _arr_userid, string _headline, string _content) throws IOException, ValidityException, ParsingException {
+	public static boolean postmultiusernews(WSDLObjectArrayofuserid _arr_userid, String _headline, String _content) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessagePostmultiusernewsrequest.create(_arr_userid, WSDLObjectString.create(_headline), WSDLObjectString.create(_content)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -1235,7 +1235,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static boolean player_postmultiusernews(WSDLObjectArrayofuserid _arr_userid, string _headline, string _content) throws IOException, ValidityException, ParsingException {
+	public static boolean player_postmultiusernews(WSDLObjectArrayofuserid _arr_userid, String _headline, String _content) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessagePlayer_postmultiusernewsrequest.create(_arr_userid, WSDLObjectString.create(_headline), WSDLObjectString.create(_content)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -1259,7 +1259,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static boolean postadminnews(string _userType, string _language, string _headline, string _content) throws IOException, ValidityException, ParsingException {
+	public static boolean postadminnews(String _userType, String _language, String _headline, String _content) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessagePostadminnewsrequest.create(WSDLObjectString.create(_userType), WSDLObjectString.create(_language), WSDLObjectString.create(_headline), WSDLObjectString.create(_content)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -1307,7 +1307,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static boolean setuserbonus(int _userid, int _amount, string _reason) throws IOException, ValidityException, ParsingException {
+	public static boolean setuserbonus(int _userid, int _amount, String _reason) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessageSetuserbonusrequest.create(WSDLObjectInt.create(_userid), WSDLObjectInt.create(_amount), WSDLObjectString.create(_reason)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -1331,7 +1331,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static boolean player_setuserbonus(int _userid, int _amount, string _reason) throws IOException, ValidityException, ParsingException {
+	public static boolean player_setuserbonus(int _userid, int _amount, String _reason) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessagePlayer_setuserbonusrequest.create(WSDLObjectInt.create(_userid), WSDLObjectInt.create(_amount), WSDLObjectString.create(_reason)).serialize().toXML();
 		String response = invoker.getReponse(request);
@@ -2027,7 +2027,7 @@ public final class WSDLServiceComunioWebService {
 		return result;
 	}
 
-	public static int getquote(int _playerid, string _date) throws IOException, ValidityException, ParsingException {
+	public static int getquote(int _playerid, String _date) throws IOException, ValidityException, ParsingException {
 		Builder xom = new Builder();
 		String request = WSDLMessageGetquoterequest.create(WSDLObjectInt.create(_playerid), WSDLObjectString.create(_date)).serialize().toXML();
 		String response = invoker.getReponse(request);

@@ -28,4 +28,14 @@ public class WSDLByteTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	public String getPrimitiveClassCodeName() {
 		return "byte";
 	}
+
+	@Override
+	public String generateEnumName(Object object, int i) {
+		return "VALUE_" + ((Byte)object).toString();
+	}
+
+	@Override
+	public String generateLiteralCode(Object object) {
+		return "new Byte(" + ((Byte)object).toString() + ")";
+	}
 }

@@ -22,6 +22,16 @@ public class WSDLStringTypeDefinition extends WSDLPrimitiveTypeDefinition {
 
 	@Override
 	public String getPrimitiveClassCodeName() {
-		return "string";
+		return "String";
+	}
+
+	@Override
+	public String generateEnumName(Object object, int i) {
+		return ((String)object).toUpperCase();
+	}
+
+	@Override
+	public String generateLiteralCode(Object object) {
+		return "\"" + (String)object + "\"";
 	}
 }

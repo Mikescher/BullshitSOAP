@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.samdev.bullshitsoap.parser.WSDLDefinition;
 import de.samdev.bullshitsoap.parser.WSDLParsingException;
+import de.samdev.bullshitsoap.parser.helper.PathHelper;
 import de.samdev.bullshitsoap.parser.helper.StringHelper;
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -46,8 +47,38 @@ public class WSDLEnumerationTypeDefinition extends WSDLSimpleTypeDefinition {
 
 	@Override
 	protected String generateClassCodeInternal() {
-		// TODO IMPLEMENT GENERATE CLASS CODE
-		return null;
+		String code = PathHelper.getResourceFile("/WSDLObjectRestriction.java-template");
+
+		code = StringHelper.replaceAll(code, "$CLASSNAME$", getClassCodeName());
+		code = StringHelper.replaceAll(code, "$ENUMCLASSNAME$", "EnumValue_" + Name);
+		code = StringHelper.replaceAll(code, "$NAME$", Name);
+		code = StringHelper.replaceAll(code, "$ENUMTYPE$", base.getPrimitiveClassCodeName());
+		
+		StringBuilder buildrEnum = new StringBuilder();
+		for (int i = 0; i < values.size(); i++) {
+			if (i < values.size()-1) {
+				buildrEnum.append(String.format("\t\t%s(%s),", base.generateEnumName(values.get(i), i), base.generateLiteralCode(values.get(i))));
+			} else {
+				buildrEnum.append(String.format("\t\t%s(%s);", base.generateEnumName(values.get(i), i), base.generateLiteralCode(values.get(i))));
+			}
+
+			if (i < values.size()-1) buildrEnum.append("\r\n");
+		}
+		code = StringHelper.replaceAll(code, "$ENUMDEF$", buildrEnum.toString().substring(2));
+		
+		StringBuilder buildrDeserialize = new StringBuilder();
+		for (int i = 0; i < values.size(); i++) {
+			buildrDeserialize.append(String.format("\t\tif (e.getValue().equalsIgnoreCase(%s.toString())) return new %s(%s.%s);", 
+					base.generateLiteralCode(values.get(i)),
+					getClassCodeName(),
+					"EnumValue_" + Name,
+					base.generateEnumName(values.get(i), i)));
+			
+			if (i < values.size()-1) buildrDeserialize.append("\r\n");
+		}
+		code = StringHelper.replaceAll(code, "$ENUMDESERIALIZE$", buildrDeserialize.toString().substring(2));
+		
+		return code;
 	}
 	
 	@Override

@@ -27,4 +27,14 @@ public class WSDLBooleanTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	public String getPrimitiveClassCodeName() {
 		return "boolean";
 	}
+
+	@Override
+	public String generateEnumName(Object object, int i) {
+		return ((Boolean)object) ? "TRUE" : "FALSE";
+	}
+
+	@Override
+	public String generateLiteralCode(Object object) {
+		return ((Boolean)object) ? "new Boolean(true)" : "new Boolean(false)";
+	}
 }

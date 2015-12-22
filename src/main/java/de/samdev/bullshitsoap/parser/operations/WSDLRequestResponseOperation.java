@@ -49,8 +49,6 @@ public class WSDLRequestResponseOperation extends WSDLOperation {
 
 	@Override
 	public String generateClassCode() {
-		StringBuilder result = new StringBuilder();
-		
 		StringBuilder buildr = new StringBuilder();
 		
 		{

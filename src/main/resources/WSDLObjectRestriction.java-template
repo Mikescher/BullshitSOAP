@@ -1,0 +1,53 @@
+package de.samdev.bullshitsoap.templates.types;
+
+import java.io.IOException;
+
+import de.samdev.bullshitsoap.comunioWebService.WSDLNamespaceCollection;
+import nu.xom.Attribute;
+import nu.xom.Element;
+import nu.xom.Attribute.Type;
+
+public class $CLASSNAME$ extends WSDLObject {
+	public enum $ENUMCLASSNAME$ {
+		$ENUMDEF$
+		
+		public final $ENUMTYPE$ representation;
+		
+		$ENUMCLASSNAME$($ENUMTYPE$ rep) {
+			representation = rep;
+		}
+	}
+	
+	public final $ENUMCLASSNAME$ value;
+	
+	private $CLASSNAME$($ENUMCLASSNAME$ v) {
+		super();
+		
+		value = v;
+	}
+
+	@Override
+	public Element serialize(String name) {
+		Element result = new Element(name);
+		
+		result.addAttribute(new Attribute(
+				"type", 
+				WSDLNamespaceCollection.NAMESPACE_PREFIX_XML_SCHEMAINSTANCE, 
+				WSDLNamespaceCollection.NAMESPACE_PREFIX_SERVICE_BASE + ":" + "$NAME$", 
+				Type.CDATA));
+		
+		result.appendChild(value.representation);
+		
+		return null;
+	}
+	
+	public static $CLASSNAME$ createFromXML(Element e) throws IOException {
+		$ENUMDESERIALIZE$
+
+		throw new IOException();
+	}
+	
+	public static $CLASSNAME$ create($ENUMCLASSNAME$ v) {
+		return new $CLASSNAME$(v);
+	}
+}

@@ -28,4 +28,14 @@ public class WSDLDoubleTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	public String getPrimitiveClassCodeName() {
 		return "double";
 	}
+
+	@Override
+	public String generateEnumName(Object object, int i) {
+		return "VALUE_" + ((Double)object).toString();
+	}
+
+	@Override
+	public String generateLiteralCode(Object object) {
+		return "new Double(" + ((Double)object).toString() + ")";
+	}
 }
