@@ -1,7 +1,6 @@
 package de.samdev.bullshitsoap.templates.messages;
 
 import de.samdev.bullshitsoap.templates.WSDLNamespaceCollection;
-import de.samdev.bullshitsoap.templates.types.*;
 import nu.xom.Attribute;
 import nu.xom.Attribute.Type;
 import nu.xom.Document;
@@ -37,6 +36,7 @@ public class WSDLMessageEmpty extends WSDLMessage {
 		return d;
 	}
 	
+	@SuppressWarnings("unused")
 	public static WSDLMessageEmpty createFromXML(Document d) {
 		return new WSDLMessageEmpty();
 	}

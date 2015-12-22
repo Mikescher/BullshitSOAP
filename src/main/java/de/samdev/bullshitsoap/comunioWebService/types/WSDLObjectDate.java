@@ -35,7 +35,7 @@ public class WSDLObjectDate extends WSDLObject {
 		return sdf;
 	}
 	
-	private final Date value;
+	public final Date value;
 	
 	private WSDLObjectDate(Date v) {
 		super();

@@ -13,7 +13,7 @@ import nu.xom.Element;
  ******************************************************************************/
 
 public class WSDLObjectByte extends WSDLObject {
-	private final byte value;
+	public final byte value;
 	
 	private WSDLObjectByte(byte v) {
 		super();

@@ -19,4 +19,9 @@ public class WSDLStringTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	protected String generateClassCodeInternal() {
 		return PathHelper.getResourceFile("/WSDLObjectString.java-template");
 	}
+
+	@Override
+	public String getPrimitiveClassCodeName() {
+		return "string";
+	}
 }

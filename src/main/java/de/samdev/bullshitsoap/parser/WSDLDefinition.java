@@ -306,6 +306,7 @@ public class WSDLDefinition {
 		buildr.append("import java.io.IOException;" 											+ "\r\n");
 		buildr.append("import java.net.URL;" 													+ "\r\n");
 		buildr.append("import de.samdev.bullshitsoap.templates.messages.*;" 					+ "\r\n");
+		buildr.append("import de.samdev.bullshitsoap.templates.types.*;" 						+ "\r\n");
 		buildr.append("import nu.xom.Builder;" 													+ "\r\n");
 		buildr.append("import nu.xom.ParsingException;" 										+ "\r\n");
 		buildr.append("import nu.xom.ValidityException;" 										+ "\r\n");

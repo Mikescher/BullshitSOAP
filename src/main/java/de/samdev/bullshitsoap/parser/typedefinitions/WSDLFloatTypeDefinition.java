@@ -23,4 +23,9 @@ public class WSDLFloatTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	protected String generateClassCodeInternal() {
 		return PathHelper.getResourceFile("/WSDLObjectFloat.java-template");
 	}
+
+	@Override
+	public String getPrimitiveClassCodeName() {
+		return "float";
+	}
 }

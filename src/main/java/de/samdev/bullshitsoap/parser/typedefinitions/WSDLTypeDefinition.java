@@ -40,4 +40,6 @@ public abstract class WSDLTypeDefinition implements IDebugFormattable {
 	public static String generateClassCodeObject(String packageBase) {
 		return WSDLCodeGenerationHelper.RefactorPackageDefinitions(packageBase, PathHelper.getResourceFile("/WSDLObject.java-template"));
 	}
+
+	public abstract boolean isPrimitive();
 }

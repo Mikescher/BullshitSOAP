@@ -8,7 +8,7 @@ import nu.xom.Element;
 /**DISCLAIMER**/
 
 public class WSDLObjectInt extends WSDLObject {
-	private final int value;
+	public final int value;
 	
 	private WSDLObjectInt(int v) {
 		super();

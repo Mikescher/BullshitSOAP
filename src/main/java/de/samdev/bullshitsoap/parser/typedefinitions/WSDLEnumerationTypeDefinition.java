@@ -49,4 +49,9 @@ public class WSDLEnumerationTypeDefinition extends WSDLSimpleTypeDefinition {
 		// TODO IMPLEMENT GENERATE CLASS CODE
 		return null;
 	}
+	
+	@Override
+	public boolean isPrimitive() {
+		return false;
+	}
 }

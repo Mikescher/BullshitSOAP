@@ -23,4 +23,9 @@ public class WSDLLongTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	protected String generateClassCodeInternal() {
 		return PathHelper.getResourceFile("/WSDLObjectLong.java-template");
 	}
+
+	@Override
+	public String getPrimitiveClassCodeName() {
+		return "long";
+	}
 }

@@ -13,7 +13,7 @@ import nu.xom.Element;
  ******************************************************************************/
 
 public class WSDLObjectLong extends WSDLObject {
-	private final long value;
+	public final long value;
 	
 	private WSDLObjectLong(long v) {
 		super();

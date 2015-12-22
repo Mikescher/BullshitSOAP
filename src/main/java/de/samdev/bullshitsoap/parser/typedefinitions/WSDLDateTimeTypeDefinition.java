@@ -47,4 +47,9 @@ public class WSDLDateTimeTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	protected String generateClassCodeInternal() {
 		return PathHelper.getResourceFile("/WSDLObjectDateTime.java-template");
 	}
+
+	@Override
+	public String getPrimitiveClassCodeName() {
+		return "Date";
+	}
 }

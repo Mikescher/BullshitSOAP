@@ -19,4 +19,11 @@ public abstract class WSDLPrimitiveTypeDefinition extends WSDLSimpleTypeDefiniti
 	}
 
 	public abstract Object parseFromString(String value) throws WSDLParsingException;
+	
+	@Override
+	public boolean isPrimitive() {
+		return true;
+	}
+
+	public abstract String getPrimitiveClassCodeName();
 }

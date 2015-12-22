@@ -23,4 +23,9 @@ public class WSDLIntegerTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	protected String generateClassCodeInternal() {
 		return PathHelper.getResourceFile("/WSDLObjectInt.java-template");
 	}
+
+	@Override
+	public String getPrimitiveClassCodeName() {
+		return "int";
+	}
 }

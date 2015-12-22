@@ -22,4 +22,9 @@ public class WSDLBooleanTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	protected String generateClassCodeInternal() {
 		return PathHelper.getResourceFile("/WSDLObjectBoolean.java-template");
 	}
+
+	@Override
+	public String getPrimitiveClassCodeName() {
+		return "boolean";
+	}
 }

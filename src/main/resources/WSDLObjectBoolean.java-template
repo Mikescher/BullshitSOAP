@@ -15,7 +15,7 @@ import nu.xom.Element;
  ******************************************************************************/
 
 public class WSDLObjectBoolean extends WSDLObject {
-	private final boolean value;
+	public final boolean value;
 	
 	private WSDLObjectBoolean(boolean v) {
 		super();

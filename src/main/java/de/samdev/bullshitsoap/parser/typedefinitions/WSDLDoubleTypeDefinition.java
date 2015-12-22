@@ -23,4 +23,9 @@ public class WSDLDoubleTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	protected String generateClassCodeInternal() {
 		return PathHelper.getResourceFile("/WSDLObjectDouble.java-template");
 	}
+
+	@Override
+	public String getPrimitiveClassCodeName() {
+		return "double";
+	}
 }

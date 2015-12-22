@@ -124,4 +124,15 @@ public class WSDLMessageDefinition implements IDebugFormattable {
 	public String getClassCodeName() {
 		return "WSDLMessage" + Character.toUpperCase(Name.charAt(0)) + Name.substring(1).toLowerCase();
 	}
+
+	public List<WSDLMessageDefinitionPart> getFields() {
+		return fields;
+	}
+
+	public boolean HasPrimitiveFields() {
+		for (WSDLMessageDefinitionPart part : fields) {
+			if (part.Type.isPrimitive()) return true;
+		}
+		return false;
+	}
 }

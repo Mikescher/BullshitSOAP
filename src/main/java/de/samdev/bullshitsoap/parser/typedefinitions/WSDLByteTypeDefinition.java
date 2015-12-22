@@ -23,4 +23,9 @@ public class WSDLByteTypeDefinition extends WSDLPrimitiveTypeDefinition {
 	protected String generateClassCodeInternal() {
 		return PathHelper.getResourceFile("/WSDLObjectByte.java-template");
 	}
+
+	@Override
+	public String getPrimitiveClassCodeName() {
+		return "byte";
+	}
 }

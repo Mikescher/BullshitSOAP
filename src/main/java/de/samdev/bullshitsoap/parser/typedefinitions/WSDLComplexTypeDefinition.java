@@ -25,4 +25,9 @@ public abstract class WSDLComplexTypeDefinition extends WSDLTypeDefinition {
 
 		throw new WSDLParsingException("Unexpected children " + element);
 	}
+	
+	@Override
+	public boolean isPrimitive() {
+		return false;
+	}
 }

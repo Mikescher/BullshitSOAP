@@ -13,7 +13,7 @@ import nu.xom.Element;
  ******************************************************************************/
 
 public class WSDLObjectFloat extends WSDLObject {
-	private final double value;
+	public final double value;
 	
 	private WSDLObjectFloat(double v) {
 		super();
