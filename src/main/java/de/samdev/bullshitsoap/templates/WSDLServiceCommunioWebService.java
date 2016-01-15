@@ -28,7 +28,7 @@ public final class WSDLServiceCommunioWebService {
 		Builder xom = new Builder();
 		String request = input.serialize("WSDLMessageGetplayerbysportaldeid").toXML();
 		String response = invoker.getReponse(request);
-		WSDLMessageGetplayerbysportaldeidresponse result = WSDLMessageGetplayerbysportaldeidresponse.createFromXML(xom.build(response, null));
+		WSDLMessageGetplayerbysportaldeidresponse result = WSDLMessageGetplayerbysportaldeidresponse.createFromXML(xom.build(response, null), "getplayerbysportaldeid");
 		return result;
 	}
 	
@@ -36,7 +36,7 @@ public final class WSDLServiceCommunioWebService {
 		Builder xom = new Builder();
 		String request = WSDLMessageGetplayerbysportaldeidrequest.create(_sportaldeid).serialize("WSDLMessageGetplayerbysportaldeid").toXML();
 		String response = invoker.getReponse(request);
-		WSDLMessageGetplayerbysportaldeidresponse result = WSDLMessageGetplayerbysportaldeidresponse.createFromXML(xom.build(response, null));
+		WSDLMessageGetplayerbysportaldeidresponse result = WSDLMessageGetplayerbysportaldeidresponse.createFromXML(xom.build(response, null), "getplayerbysportaldeid");
 		return result;
 	}
 }

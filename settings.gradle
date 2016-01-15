@@ -1,1 +1,8 @@
+rootproject.ext {
+	appmain    = 'de.samdev.bullshitsoap.Main'
+	appversion = '0.2'
+	appname    = 'BullshitSOAP'
+}
+
+
 rootProject.name = 'BullshitSOAP'
